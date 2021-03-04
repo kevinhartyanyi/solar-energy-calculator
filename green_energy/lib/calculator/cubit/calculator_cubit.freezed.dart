@@ -15,8 +15,8 @@ class _$CalculatorStateTearOff {
 
 // ignore: unused_element
   _Initial initial(
-      {double latitude,
-      double longitude,
+      {Coordinate latitude,
+      Coordinate longitude,
       double peakpower = 1000,
       double loss = 14,
       String errorMessage,
@@ -40,8 +40,8 @@ const $CalculatorState = _$CalculatorStateTearOff();
 
 /// @nodoc
 mixin _$CalculatorState {
-  double get latitude;
-  double get longitude;
+  Coordinate get latitude;
+  Coordinate get longitude;
   double get peakpower;
   double get loss;
   String get errorMessage;
@@ -52,8 +52,8 @@ mixin _$CalculatorState {
   TResult when<TResult extends Object>({
     @required
         TResult initial(
-            double latitude,
-            double longitude,
+            Coordinate latitude,
+            Coordinate longitude,
             double peakpower,
             double loss,
             String errorMessage,
@@ -63,8 +63,8 @@ mixin _$CalculatorState {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object>({
     TResult initial(
-        double latitude,
-        double longitude,
+        Coordinate latitude,
+        Coordinate longitude,
         double peakpower,
         double loss,
         String errorMessage,
@@ -92,8 +92,8 @@ abstract class $CalculatorStateCopyWith<$Res> {
           CalculatorState value, $Res Function(CalculatorState) then) =
       _$CalculatorStateCopyWithImpl<$Res>;
   $Res call(
-      {double latitude,
-      double longitude,
+      {Coordinate latitude,
+      Coordinate longitude,
       double peakpower,
       double loss,
       String errorMessage,
@@ -121,8 +121,9 @@ class _$CalculatorStateCopyWithImpl<$Res>
     Object solarData = freezed,
   }) {
     return _then(_value.copyWith(
-      latitude: latitude == freezed ? _value.latitude : latitude as double,
-      longitude: longitude == freezed ? _value.longitude : longitude as double,
+      latitude: latitude == freezed ? _value.latitude : latitude as Coordinate,
+      longitude:
+          longitude == freezed ? _value.longitude : longitude as Coordinate,
       peakpower: peakpower == freezed ? _value.peakpower : peakpower as double,
       loss: loss == freezed ? _value.loss : loss as double,
       errorMessage: errorMessage == freezed
@@ -142,8 +143,8 @@ abstract class _$InitialCopyWith<$Res>
       __$InitialCopyWithImpl<$Res>;
   @override
   $Res call(
-      {double latitude,
-      double longitude,
+      {Coordinate latitude,
+      Coordinate longitude,
       double peakpower,
       double loss,
       String errorMessage,
@@ -171,8 +172,9 @@ class __$InitialCopyWithImpl<$Res> extends _$CalculatorStateCopyWithImpl<$Res>
     Object solarData = freezed,
   }) {
     return _then(_Initial(
-      latitude: latitude == freezed ? _value.latitude : latitude as double,
-      longitude: longitude == freezed ? _value.longitude : longitude as double,
+      latitude: latitude == freezed ? _value.latitude : latitude as Coordinate,
+      longitude:
+          longitude == freezed ? _value.longitude : longitude as Coordinate,
       peakpower: peakpower == freezed ? _value.peakpower : peakpower as double,
       loss: loss == freezed ? _value.loss : loss as double,
       errorMessage: errorMessage == freezed
@@ -200,9 +202,9 @@ class _$_Initial implements _Initial {
         assert(status != null);
 
   @override
-  final double latitude;
+  final Coordinate latitude;
   @override
-  final double longitude;
+  final Coordinate longitude;
   @JsonKey(defaultValue: 1000)
   @override
   final double peakpower;
@@ -268,8 +270,8 @@ class _$_Initial implements _Initial {
   TResult when<TResult extends Object>({
     @required
         TResult initial(
-            double latitude,
-            double longitude,
+            Coordinate latitude,
+            Coordinate longitude,
             double peakpower,
             double loss,
             String errorMessage,
@@ -285,8 +287,8 @@ class _$_Initial implements _Initial {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object>({
     TResult initial(
-        double latitude,
-        double longitude,
+        Coordinate latitude,
+        Coordinate longitude,
         double peakpower,
         double loss,
         String errorMessage,
@@ -327,8 +329,8 @@ class _$_Initial implements _Initial {
 
 abstract class _Initial implements CalculatorState {
   const factory _Initial(
-      {double latitude,
-      double longitude,
+      {Coordinate latitude,
+      Coordinate longitude,
       double peakpower,
       double loss,
       String errorMessage,
@@ -336,9 +338,9 @@ abstract class _Initial implements CalculatorState {
       SolarData solarData}) = _$_Initial;
 
   @override
-  double get latitude;
+  Coordinate get latitude;
   @override
-  double get longitude;
+  Coordinate get longitude;
   @override
   double get peakpower;
   @override

@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:connectivity/connectivity.dart';
+import 'package:intl/intl.dart';
 
 Uri urlBuilder({
   @required double lat,
@@ -31,4 +32,16 @@ Future<bool> isOffline() async {
     final connectivityResult = await _mockedConnectivity.checkConnectivity();
     return connectivityResult == ConnectivityResult.none;
   }
+}
+
+// String roundAndRemoveTrailingZeros(final double n, [int keep = 2]) {
+//   print("hallo, $n ${n.truncateToDouble()}");
+//   return n.toStringAsFixed(n.truncateToDouble() == n ? 0 : keep);
+// }
+
+String roundAndRemoveTrailingZeros(final double n, [int keep = 2]) {
+  final NumberFormat formatter = NumberFormat();
+  formatter.minimumFractionDigits = 0;
+  formatter.maximumFractionDigits = keep;
+  return formatter.format(n);
 }

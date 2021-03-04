@@ -36,6 +36,8 @@ dependencies:
   titled_navigation_bar: ^4.1.0
   formz: ^0.3.2
   connectivity: ^2.0.2
+  flutter_map: ^0.11.0
+  intl: ^0.16.0
 
 
   # The following adds the Cupertino Icons font to your application.
