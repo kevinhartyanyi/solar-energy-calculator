@@ -37,7 +37,7 @@ dependencies:
   formz: ^0.3.2
   connectivity: ^2.0.2
   flutter_map: ^0.11.0
-  intl: ^0.16.0
+  jiffy: ^4.0.0
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -55,6 +55,7 @@ dev_dependencies:
   build_runner: ^1.11.1
   logger: ^0.9.4
   auto_route_generator: ^0.6.9
+  test: ^1.16.5
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
