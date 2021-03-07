@@ -5,6 +5,7 @@ import 'package:green_energy/analyze/cubit/analyze_cubit.dart';
 import 'package:green_energy/common/input_buttons.dart';
 import 'package:green_energy/common/my_column.dart';
 import 'package:green_energy/common/my_text.dart';
+import 'package:green_energy/common/my_textfield.dart';
 import 'package:green_energy/models/solar_data.dart';
 import 'package:green_energy/utils.dart';
 import 'package:intl/intl.dart';
@@ -40,18 +41,18 @@ class Analyze extends StatelessWidget {
     return MyColumn(
       children: [
         TmpChart(),
-        InputIntButton(
+        IntTextField(
           name: "Amount",
           currentValue: state.amount,
           onChanged: cubit.changeAmount,
         ),
         InstalmentDate(),
-        InputDoubleButton(
+        DoubleTextField(
           name: "Electricity Price",
           currentValue: state.electricityPrice,
           onChanged: cubit.changeElectricityPricePrice,
         ),
-        InputDoubleButton(
+        DoubleTextField(
           name: "Cost of a single panel",
           currentValue: state.panelCost,
           onChanged: cubit.changePanelCost,
@@ -95,11 +96,15 @@ class Results extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<AnalyzeCubit, AnalyzeState>(
       builder: (context, state) {
+        final totalEnergy =
+            getTotalEnergyProduced(state.solarData, state.instalment);
+        final savedMoney = getMoneySaved(totalEnergy, state.electricityPrice);
+        final co2Reduction = getCO2Reduction(totalEnergy);
         return Column(
           children: [
-            MyText("Total Energy: "),
-            MyText("Money saved: "),
-            MyText("CO2 reduction: ")
+            MyText("Total Energy: $totalEnergy"),
+            MyText("Money saved: $savedMoney"),
+            MyText("CO2 reduction: $co2Reduction")
           ],
         );
       },

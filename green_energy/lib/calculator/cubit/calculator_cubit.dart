@@ -17,16 +17,21 @@ part 'calculator_cubit.freezed.dart';
 class CalculatorCubit extends Cubit<CalculatorState> {
   CalculatorCubit()
       : super(CalculatorState.initial(
-            latitude: Coordinate.dirty(48.8566),
-            longitude: Coordinate.dirty(2.3522),
+            latitude: const Coordinate.dirty(48.8566),
+            longitude: const Coordinate.dirty(2.3522),
             status: Formz.validate(
-                [Coordinate.dirty(48.8566), Coordinate.dirty(2.3522)]))) {
+                const [Coordinate.dirty(48.8566), Coordinate.dirty(2.3522)]))) {
     mapController = MapController();
   }
 
   static final _log = Logger("CalculatorCubit");
 
   MapController mapController;
+
+  void changeCalculatorType() {
+    _log.fine("change calculator type advanced: ${!state.advanced}");
+    emit(state.copyWith(advanced: !state.advanced));
+  }
 
   void moveMap(LatLng latLng) {
     _log.fine("move map to lat: ${latLng.latitude}, lon: ${latLng.longitude}");
@@ -58,7 +63,7 @@ class CalculatorCubit extends Cubit<CalculatorState> {
   void changeCoords({@required double lat, @required double lon}) {
     final latitude = Coordinate.dirty(lat);
     final longitude = Coordinate.dirty(lon);
-    moveMap(LatLng(latitude.value, longitude.value));
+    //moveMap(LatLng(latitude.value, longitude.value));
     _log.fine("change coords to lat: $lat, lon: $lon");
     emit(
       state.copyWith(

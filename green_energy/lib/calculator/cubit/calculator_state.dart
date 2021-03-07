@@ -3,6 +3,7 @@ part of 'calculator_cubit.dart';
 @freezed
 abstract class CalculatorState with _$CalculatorState {
   const factory CalculatorState.initial({
+    @Default(false) bool advanced,
     Coordinate latitude,
     Coordinate longitude,
     @Default(1000) double peakpower,

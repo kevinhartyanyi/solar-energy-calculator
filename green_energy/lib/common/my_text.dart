@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:theme_provider/theme_provider.dart';
 
 class MyText extends StatelessWidget {
   const MyText(
@@ -20,15 +20,16 @@ class MyText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = ThemeProvider.themeOf(context).data;
     final h = MediaQuery.of(context).size.height;
     return AutoSizeText(
       text ?? "NULL TEXT",
       maxLines: maxlines,
-      // style: theme.text.copyWith(
-      //   color: textColor ?? theme.defaultTextColor,
-      //   fontWeight: FontWeight.w900,
-      //   fontSize: textSize ?? h * 0.04,
-      // ),
+      style: theme.textTheme.bodyText1.copyWith(
+        color: textColor ?? theme.textTheme.bodyText1.color,
+        fontWeight: FontWeight.w900,
+        fontSize: textSize ?? h * 0.04,
+      ),
     );
   }
 }

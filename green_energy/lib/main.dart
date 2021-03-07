@@ -3,12 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:green_energy/bloc_observer.dart';
 import 'package:green_energy/navigation/navigation_cubit.dart';
+import 'package:green_energy/themes.dart';
 import 'package:logging/logging.dart';
-import 'package:device_preview/device_preview.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:green_energy/router/my_router.dart';
 import 'package:logger/logger.dart' as debug;
+import 'package:theme_provider/theme_provider.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 const bool kReleaseMode = false;
 void main() {
@@ -47,26 +49,28 @@ void main() {
   Bloc.observer = GlobalCubitObserver();
   EquatableConfig.stringify = !kReleaseMode;
   runApp(
-    DevicePreview(
-      // ignore: avoid_redundant_argument_values
-      enabled: !kReleaseMode,
-      builder: (context) => MyApp(),
-    ),
-  );
+      // DevicePreview(
+      //   // ignore: avoid_redundant_argument_values
+      //   enabled: !kReleaseMode,
+      //   child: MyApp(),
+      // ),
+      MyApp());
 }
 
 class MyApp extends StatelessWidget {
   static final _log = Logger("MyApp");
 
-  final Future<void> setPortrait = SystemChrome.setPreferredOrientations([
-    DeviceOrientation.portraitUp,
-    DeviceOrientation.portraitDown,
-  ]);
+  final initIntl = initializeDateFormatting('en_US');
+
+  // final Future<void> setPortrait = SystemChrome.setPreferredOrientations([
+  //   DeviceOrientation.portraitUp,
+  //   DeviceOrientation.portraitDown,
+  // ]);
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: Future.value("Load"), //setPortrait,
+        future: Future.wait([initIntl]), //setPortrait,
         builder: (context, snapshot) {
           if (snapshot.hasError) {
             _log.severe("Error: ${snapshot.error.toString()}");
@@ -102,14 +106,32 @@ class MyAppCore extends StatelessWidget {
           create: (context) => NavigationCubit(),
         )
       ],
-      child: MaterialApp(
-        locale: DevicePreview.locale(context), // <--- /!\ Add the locale
-        builder: ExtendedNavigator.builder(
-            router: MyRouter(),
-            initialRoute: Routes.rootPage,
-            builder: DevicePreview.appBuilder), // <--- /!\ Add the builder)
-        theme: Theme.of(context),
-        title: 'Green Energy',
+      child: ThemeProvider(
+        themes: [
+          AppTheme(
+            id: "light_theme",
+            description: "Light Theme",
+            data: myLightTheme,
+          ),
+          AppTheme.dark()
+        ],
+        child: ThemeConsumer(
+          child: Builder(builder: (themeContext) {
+            final router =
+                MyRouter(); //TODO: Check issue for this: https://github.com/Milad-Akarie/auto_route_library/issues/378
+            return MaterialApp(
+              onGenerateRoute: router,
+              builder: ExtendedNavigator.builder(
+                router: router,
+                initialRoute: Routes.rootPage,
+              ),
+              // builder:
+              //     DevicePreview.appBuilder), // <--- /!\ Add the builder)
+              theme: ThemeProvider.themeOf(themeContext).data,
+              title: 'Green Energy',
+            );
+          }),
+        ),
       ),
     );
   }

@@ -15,7 +15,8 @@ class _$CalculatorStateTearOff {
 
 // ignore: unused_element
   _Initial initial(
-      {Coordinate latitude,
+      {bool advanced = false,
+      Coordinate latitude,
       Coordinate longitude,
       double peakpower = 1000,
       double loss = 14,
@@ -23,6 +24,7 @@ class _$CalculatorStateTearOff {
       FormzStatus status = FormzStatus.pure,
       SolarData solarData}) {
     return _Initial(
+      advanced: advanced,
       latitude: latitude,
       longitude: longitude,
       peakpower: peakpower,
@@ -40,6 +42,7 @@ const $CalculatorState = _$CalculatorStateTearOff();
 
 /// @nodoc
 mixin _$CalculatorState {
+  bool get advanced;
   Coordinate get latitude;
   Coordinate get longitude;
   double get peakpower;
@@ -52,6 +55,7 @@ mixin _$CalculatorState {
   TResult when<TResult extends Object>({
     @required
         TResult initial(
+            bool advanced,
             Coordinate latitude,
             Coordinate longitude,
             double peakpower,
@@ -63,6 +67,7 @@ mixin _$CalculatorState {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object>({
     TResult initial(
+        bool advanced,
         Coordinate latitude,
         Coordinate longitude,
         double peakpower,
@@ -92,7 +97,8 @@ abstract class $CalculatorStateCopyWith<$Res> {
           CalculatorState value, $Res Function(CalculatorState) then) =
       _$CalculatorStateCopyWithImpl<$Res>;
   $Res call(
-      {Coordinate latitude,
+      {bool advanced,
+      Coordinate latitude,
       Coordinate longitude,
       double peakpower,
       double loss,
@@ -112,6 +118,7 @@ class _$CalculatorStateCopyWithImpl<$Res>
 
   @override
   $Res call({
+    Object advanced = freezed,
     Object latitude = freezed,
     Object longitude = freezed,
     Object peakpower = freezed,
@@ -121,6 +128,7 @@ class _$CalculatorStateCopyWithImpl<$Res>
     Object solarData = freezed,
   }) {
     return _then(_value.copyWith(
+      advanced: advanced == freezed ? _value.advanced : advanced as bool,
       latitude: latitude == freezed ? _value.latitude : latitude as Coordinate,
       longitude:
           longitude == freezed ? _value.longitude : longitude as Coordinate,
@@ -143,7 +151,8 @@ abstract class _$InitialCopyWith<$Res>
       __$InitialCopyWithImpl<$Res>;
   @override
   $Res call(
-      {Coordinate latitude,
+      {bool advanced,
+      Coordinate latitude,
       Coordinate longitude,
       double peakpower,
       double loss,
@@ -163,6 +172,7 @@ class __$InitialCopyWithImpl<$Res> extends _$CalculatorStateCopyWithImpl<$Res>
 
   @override
   $Res call({
+    Object advanced = freezed,
     Object latitude = freezed,
     Object longitude = freezed,
     Object peakpower = freezed,
@@ -172,6 +182,7 @@ class __$InitialCopyWithImpl<$Res> extends _$CalculatorStateCopyWithImpl<$Res>
     Object solarData = freezed,
   }) {
     return _then(_Initial(
+      advanced: advanced == freezed ? _value.advanced : advanced as bool,
       latitude: latitude == freezed ? _value.latitude : latitude as Coordinate,
       longitude:
           longitude == freezed ? _value.longitude : longitude as Coordinate,
@@ -190,17 +201,22 @@ class __$InitialCopyWithImpl<$Res> extends _$CalculatorStateCopyWithImpl<$Res>
 /// @nodoc
 class _$_Initial implements _Initial {
   const _$_Initial(
-      {this.latitude,
+      {this.advanced = false,
+      this.latitude,
       this.longitude,
       this.peakpower = 1000,
       this.loss = 14,
       this.errorMessage,
       this.status = FormzStatus.pure,
       this.solarData})
-      : assert(peakpower != null),
+      : assert(advanced != null),
+        assert(peakpower != null),
         assert(loss != null),
         assert(status != null);
 
+  @JsonKey(defaultValue: false)
+  @override
+  final bool advanced;
   @override
   final Coordinate latitude;
   @override
@@ -221,13 +237,16 @@ class _$_Initial implements _Initial {
 
   @override
   String toString() {
-    return 'CalculatorState.initial(latitude: $latitude, longitude: $longitude, peakpower: $peakpower, loss: $loss, errorMessage: $errorMessage, status: $status, solarData: $solarData)';
+    return 'CalculatorState.initial(advanced: $advanced, latitude: $latitude, longitude: $longitude, peakpower: $peakpower, loss: $loss, errorMessage: $errorMessage, status: $status, solarData: $solarData)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is _Initial &&
+            (identical(other.advanced, advanced) ||
+                const DeepCollectionEquality()
+                    .equals(other.advanced, advanced)) &&
             (identical(other.latitude, latitude) ||
                 const DeepCollectionEquality()
                     .equals(other.latitude, latitude)) &&
@@ -252,6 +271,7 @@ class _$_Initial implements _Initial {
   @override
   int get hashCode =>
       runtimeType.hashCode ^
+      const DeepCollectionEquality().hash(advanced) ^
       const DeepCollectionEquality().hash(latitude) ^
       const DeepCollectionEquality().hash(longitude) ^
       const DeepCollectionEquality().hash(peakpower) ^
@@ -270,6 +290,7 @@ class _$_Initial implements _Initial {
   TResult when<TResult extends Object>({
     @required
         TResult initial(
+            bool advanced,
             Coordinate latitude,
             Coordinate longitude,
             double peakpower,
@@ -279,14 +300,15 @@ class _$_Initial implements _Initial {
             SolarData solarData),
   }) {
     assert(initial != null);
-    return initial(
-        latitude, longitude, peakpower, loss, errorMessage, status, solarData);
+    return initial(advanced, latitude, longitude, peakpower, loss, errorMessage,
+        status, solarData);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object>({
     TResult initial(
+        bool advanced,
         Coordinate latitude,
         Coordinate longitude,
         double peakpower,
@@ -298,8 +320,8 @@ class _$_Initial implements _Initial {
   }) {
     assert(orElse != null);
     if (initial != null) {
-      return initial(latitude, longitude, peakpower, loss, errorMessage, status,
-          solarData);
+      return initial(advanced, latitude, longitude, peakpower, loss,
+          errorMessage, status, solarData);
     }
     return orElse();
   }
@@ -329,7 +351,8 @@ class _$_Initial implements _Initial {
 
 abstract class _Initial implements CalculatorState {
   const factory _Initial(
-      {Coordinate latitude,
+      {bool advanced,
+      Coordinate latitude,
       Coordinate longitude,
       double peakpower,
       double loss,
@@ -337,6 +360,8 @@ abstract class _Initial implements CalculatorState {
       FormzStatus status,
       SolarData solarData}) = _$_Initial;
 
+  @override
+  bool get advanced;
   @override
   Coordinate get latitude;
   @override

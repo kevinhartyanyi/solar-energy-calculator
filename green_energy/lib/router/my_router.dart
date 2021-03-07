@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route_annotations.dart';
+import 'package:green_energy/analyze/view/analyze_page.dart';
 import 'package:green_energy/calculator/view/calculator_page.dart';
 import 'package:green_energy/home/view/home_page.dart';
 import 'package:green_energy/root/view/root_page.dart';
@@ -12,6 +13,7 @@ export 'my_router.gr.dart';
     MaterialRoute(page: RootPage),
     MaterialRoute(page: HomePage),
     MaterialRoute(page: CalculatorPage),
+    MaterialRoute(page: AnalyzePage),
   ],
 )
 class $MyRouter {}
