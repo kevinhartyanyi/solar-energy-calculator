@@ -73,6 +73,8 @@ double getTotalEnergyProduced(SolarData solarData, DateTime instalment,
     [DateTime endDate]) {
   final end = endDate ?? DateTime.now();
 
+  print("Start $instalment, end: $end");
+
   double getEnergyForMonth(int month) {
     return solarData.avgMonthlyEnergy[month - 1];
   }
@@ -86,8 +88,8 @@ double getTotalEnergyProduced(SolarData solarData, DateTime instalment,
   double getEnergyForMonths(int startMonth, int monthsAmount) {
     print("Months amount: $monthsAmount");
     double energySum = 0;
-    for (var i = 1; i < monthsAmount; i++) {
-      final month = startMonth + i % 12;
+    for (var i = 0; i < monthsAmount - 1; i++) {
+      final month = ((startMonth + i) % 12) + 1;
       energySum += getEnergyForMonth(month);
     }
     return energySum;
@@ -110,7 +112,6 @@ double getTotalEnergyProduced(SolarData solarData, DateTime instalment,
 
   final daysThisMonth = end.day;
   print("Days in this month: $daysThisMonth");
-  print(getEnergyForMonth(DateTime.january));
   final energyFromStartMonth =
       getAvgDailyEnergyForMonth(instalment.month) * daysFromStartMonth;
   final energyFromCurrentMonth = getAvgDailyEnergyForMonth(end.month) * end.day;

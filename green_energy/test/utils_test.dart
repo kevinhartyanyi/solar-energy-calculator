@@ -136,6 +136,23 @@ void main() {
           expectedFromStartMonth + expectedFromMonths + expectedFromEndMonth);
     });
 
+    test('check 1 year', () {
+      final instalment = DateTime(2020, 3, 7);
+      final end = DateTime(2021, 3, 7);
+
+      final totalEnergy = getTotalEnergyProduced(solarData, instalment, end);
+      final expectedFromStartMonth = 25 * (solarData.avgMonthlyEnergy[2] / 31);
+      final expectedFromEndMonth = 7 * (solarData.avgMonthlyEnergy[2] / 31);
+      final expectedFromMonths = solarData.avgMonthlyEnergy
+              .reduce((value, element) => value + element) -
+          solarData.avgMonthlyEnergy[2];
+      // print("Expected start month $expectedFromStartMonth");
+      // print("Expected current month $expectedFromEndMonth");
+      // print("Expected energy for months $expectedFromMonths");
+      expect(totalEnergy,
+          expectedFromStartMonth + expectedFromMonths + expectedFromEndMonth);
+    });
+
     test('check same day', () {
       final instalment = DateTime(2019, 1, 2);
       final end = DateTime(2019, 1, 2);

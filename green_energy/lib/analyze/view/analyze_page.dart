@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:green_energy/analyze/cubit/analyze_cubit.dart';
+import 'package:green_energy/analyze/view/widgets/input_values.dart';
+import 'package:green_energy/analyze/view/widgets/value_displays.dart';
+import 'package:green_energy/common/card_base.dart';
+import 'package:green_energy/common/display_value.dart';
 import 'package:green_energy/common/input_buttons.dart';
 import 'package:green_energy/common/my_column.dart';
 import 'package:green_energy/common/my_text.dart';
@@ -9,6 +13,7 @@ import 'package:green_energy/common/my_textfield.dart';
 import 'package:green_energy/models/solar_data.dart';
 import 'package:green_energy/utils.dart';
 import 'package:intl/intl.dart';
+import 'package:theme_provider/theme_provider.dart';
 
 class AnalyzePage extends StatelessWidget {
   const AnalyzePage({Key key, @required this.solarData}) : super(key: key);
@@ -36,29 +41,88 @@ class Analyze extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cubit = BlocProvider.of<AnalyzeCubit>(context);
-    final state = cubit.state;
-    return MyColumn(
-      children: [
+    return ListView(
+      padding: const EdgeInsets.all(8.0),
+      children: const [
         TmpChart(),
-        IntTextField(
-          name: "Amount",
-          currentValue: state.amount,
-          onChanged: cubit.changeAmount,
+        SizedBox(
+          height: 8.0,
         ),
-        InstalmentDate(),
-        DoubleTextField(
-          name: "Electricity Price",
-          currentValue: state.electricityPrice,
-          onChanged: cubit.changeElectricityPricePrice,
+        AmountAndElectricityPrice(),
+        SizedBox(
+          height: 8.0,
         ),
-        DoubleTextField(
-          name: "Cost of a single panel",
-          currentValue: state.panelCost,
-          onChanged: cubit.changePanelCost,
+        Cost(),
+        SizedBox(
+          height: 8.0,
         ),
-        Results(),
+        DateInput(),
+        SizedBox(
+          height: 8.0,
+        ),
+        TotalEnergy(),
+        SizedBox(
+          height: 8.0,
+        ),
+        MoneySaved(),
+        SizedBox(
+          height: 8.0,
+        ),
+        CO2Reduction(),
+        SizedBox(
+          height: 8.0,
+        ),
       ],
+    );
+  }
+}
+
+class DateInput extends StatelessWidget {
+  const DateInput({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final h = MediaQuery.of(context).size.height;
+    return SizedBox(
+      height: h * 0.08,
+      child: Row(
+        children: const [
+          Expanded(child: InstalmentDate()),
+          SizedBox(
+            width: 12.0,
+          ),
+          Expanded(child: EndDate()),
+        ],
+      ),
+    );
+  }
+}
+
+class EndDate extends StatelessWidget {
+  const EndDate({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final h = MediaQuery.of(context).size.height;
+    return InkWell(
+      onTap: () {
+        datePicker(
+            context: context,
+            onPicked: context.read<AnalyzeCubit>().changeEndDate,
+            isLightTheme: true);
+      },
+      child: BlocBuilder<AnalyzeCubit, AnalyzeState>(
+        builder: (context, state) {
+          final Locale myLocale = Localizations.localeOf(context);
+          final date = DateFormat.yMd(myLocale.languageCode).format(state.end);
+          return DisplayTextField(
+            name: "End",
+            value: date,
+            prefix: false,
+            height: h * 0.08,
+          );
+        },
+      ),
     );
   }
 }
@@ -68,11 +132,14 @@ class InstalmentDate extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final h = MediaQuery.of(context).size.height;
     return InkWell(
       onTap: () {
+        final cubit = context.read<AnalyzeCubit>();
         datePicker(
             context: context,
-            onPicked: context.read<AnalyzeCubit>().changeInstalment,
+            onPicked: cubit.changeInstalment,
+            lastDate: cubit.state.end,
             isLightTheme: true);
       },
       child: BlocBuilder<AnalyzeCubit, AnalyzeState>(
@@ -80,8 +147,11 @@ class InstalmentDate extends StatelessWidget {
           final Locale myLocale = Localizations.localeOf(context);
           final date =
               DateFormat.yMd(myLocale.languageCode).format(state.instalment);
-          return MyText(
-            "InstalmentDate: $date",
+          return DisplayTextField(
+            name: "Instalment",
+            value: date,
+            prefix: false,
+            height: h * 0.08,
           );
         },
       ),
@@ -89,25 +159,25 @@ class InstalmentDate extends StatelessWidget {
   }
 }
 
-class Results extends StatelessWidget {
-  const Results({Key key}) : super(key: key);
+class AmountAndElectricityPrice extends StatelessWidget {
+  const AmountAndElectricityPrice({
+    Key key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AnalyzeCubit, AnalyzeState>(
-      builder: (context, state) {
-        final totalEnergy =
-            getTotalEnergyProduced(state.solarData, state.instalment);
-        final savedMoney = getMoneySaved(totalEnergy, state.electricityPrice);
-        final co2Reduction = getCO2Reduction(totalEnergy);
-        return Column(
-          children: [
-            MyText("Total Energy: $totalEnergy"),
-            MyText("Money saved: $savedMoney"),
-            MyText("CO2 reduction: $co2Reduction")
-          ],
-        );
-      },
+    final h = MediaQuery.of(context).size.height;
+    return SizedBox(
+      height: h * 0.08,
+      child: Row(
+        children: const [
+          Expanded(child: Amount()),
+          SizedBox(
+            width: 12.0,
+          ),
+          Expanded(child: ElectricityPrice()),
+        ],
+      ),
     );
   }
 }

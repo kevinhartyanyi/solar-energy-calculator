@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:green_energy/common/card_base.dart';
-import 'package:green_energy/common/my_text.dart';
 import 'package:green_energy/utils.dart';
 import 'package:theme_provider/theme_provider.dart';
 
@@ -10,15 +9,25 @@ class IntTextField extends StatelessWidget {
       {Key key,
       @required this.onChanged,
       @required this.currentValue,
-      @required this.name})
+      @required this.name,
+      this.prefix = true,
+      this.height,
+      this.width})
       : super(key: key);
 
   final Function(int) onChanged;
   final int currentValue;
   final String name;
+  final bool prefix;
+  final double height;
+  final double width;
 
   void onTextChange(String text) {
-    onChanged(int.parse(text));
+    try {
+      onChanged(int.parse(text));
+    } catch (e) {
+      onChanged(1);
+    }
   }
 
   @override
@@ -36,6 +45,9 @@ class IntTextField extends StatelessWidget {
       controller: controller,
       keyboardType: TextInputType.number,
       inputFormatters: inputFormatters,
+      prefix: prefix,
+      height: height,
+      width: width,
     );
   }
 }
@@ -45,15 +57,25 @@ class DoubleTextField extends StatelessWidget {
       {Key key,
       @required this.onChanged,
       @required this.currentValue,
-      @required this.name})
+      @required this.name,
+      this.prefix = true,
+      this.height,
+      this.width})
       : super(key: key);
 
   final Function(double) onChanged;
   final double currentValue;
   final String name;
+  final bool prefix;
+  final double height;
+  final double width;
 
   void onTextChange(String text) {
-    onChanged(double.parse(text));
+    try {
+      onChanged(double.parse(text));
+    } catch (e) {
+      onChanged(1.0);
+    }
   }
 
   @override
@@ -71,6 +93,9 @@ class DoubleTextField extends StatelessWidget {
       controller: controller,
       keyboardType: TextInputType.number,
       inputFormatters: inputFormatters,
+      prefix: prefix,
+      height: height,
+      width: width,
     );
   }
 }
@@ -85,6 +110,8 @@ class MyTextField extends StatelessWidget {
     this.keyboardType,
     this.inputFormatters,
     this.prefix = true,
+    this.height,
+    this.width,
   }) : super(key: key);
 
   final String name;
@@ -94,6 +121,8 @@ class MyTextField extends StatelessWidget {
   final TextEditingController controller;
   final void Function(String) onChanged;
   final bool prefix;
+  final double height;
+  final double width;
 
   @override
   Widget build(BuildContext context) {
@@ -101,9 +130,12 @@ class MyTextField extends StatelessWidget {
     final h = MediaQuery.of(context).size.height;
     final double textSize = h * 0.03;
     return CardBase(
+      height: height,
+      width: width,
       child: Center(
         child: TextField(
           controller: controller,
+          onChanged: onChanged,
           keyboardType: keyboardType,
           inputFormatters: inputFormatters,
           cursorColor: theme.accentColor,
@@ -141,6 +173,52 @@ class TextFieldPrefix extends StatelessWidget {
             fontSize: textSize,
             fontWeight: FontWeight.w900,
             color: theme.accentColor),
+      ),
+    );
+  }
+}
+
+class DisplayTextField extends StatelessWidget {
+  const DisplayTextField({
+    Key key,
+    @required this.name,
+    @required this.value,
+    this.prefix = true,
+    this.height,
+    this.width,
+  }) : super(key: key);
+
+  final String name;
+  final String value;
+  final bool prefix;
+  final double height;
+  final double width;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = ThemeProvider.themeOf(context).data;
+    final h = MediaQuery.of(context).size.height;
+    final double textSize = h * 0.03;
+    final TextEditingController controller = TextEditingController(text: value);
+    return CardBase(
+      height: height,
+      width: width,
+      child: Center(
+        child: TextField(
+          controller: controller,
+          enabled: false,
+          cursorColor: theme.accentColor,
+          style: theme.textTheme.bodyText1.copyWith(fontSize: h * 0.03),
+          decoration: InputDecoration(
+              prefix: prefix
+                  ? TextFieldPrefix(text: name, textSize: textSize)
+                  : null,
+              border: InputBorder.none,
+              contentPadding:
+                  const EdgeInsets.only(left: 15, bottom: 5, top: 5, right: 15),
+              labelText: prefix ? null : name,
+              labelStyle: TextStyle(color: theme.accentColor)),
+        ),
       ),
     );
   }

@@ -6,6 +6,8 @@ abstract class AnalyzeState with _$AnalyzeState {
       {SolarData solarData,
       @Default(1) int amount,
       DateTime instalment,
+      DateTime end,
       @Default(1) double electricityPrice,
-      @Default(100) double panelCost}) = _Initial;
+      @Default(100) double panelCost,
+      double totalEnergy}) = _Initial;
 }
