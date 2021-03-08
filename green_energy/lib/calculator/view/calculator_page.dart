@@ -226,16 +226,25 @@ class SubmitButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
-      child: InkWell(
-        onTap: () {
-          final cubit = BlocProvider.of<CalculatorCubit>(context);
-          cubit.submit();
+      child: BlocBuilder<CalculatorCubit, CalculatorState>(
+        buildWhen: (previous, current) => previous.status != current.status,
+        builder: (context, state) {
+          return state.status.isSubmissionInProgress
+              ? const Center(
+                  child: CircularProgressIndicator(),
+                )
+              : InkWell(
+                  onTap: () {
+                    final cubit = BlocProvider.of<CalculatorCubit>(context);
+                    cubit.submit();
+                  },
+                  child: const CardBase(
+                    child: Center(
+                      child: MyText("Calculate"),
+                    ),
+                  ),
+                );
         },
-        child: const CardBase(
-          child: Center(
-            child: MyText("Calculate"),
-          ),
-        ),
       ),
     );
   }

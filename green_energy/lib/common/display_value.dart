@@ -9,13 +9,15 @@ class DisplayValue extends StatelessWidget {
       @required this.name,
       @required this.value,
       this.height,
-      this.width})
+      this.width,
+      this.info})
       : super(key: key);
 
   final String name;
   final String value;
   final double height;
   final double width;
+  final String info;
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +25,7 @@ class DisplayValue extends StatelessWidget {
     return CardBase(
       height: height,
       width: width,
+      info: "info",
       child: Row(children: [
         Expanded(
           child: MyText(
