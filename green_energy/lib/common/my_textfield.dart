@@ -12,7 +12,8 @@ class IntTextField extends StatelessWidget {
       @required this.name,
       this.prefix = true,
       this.height,
-      this.width})
+      this.width,
+      this.info})
       : super(key: key);
 
   final Function(int) onChanged;
@@ -21,6 +22,7 @@ class IntTextField extends StatelessWidget {
   final bool prefix;
   final double height;
   final double width;
+  final String info;
 
   void onTextChange(String text) {
     try {
@@ -48,6 +50,7 @@ class IntTextField extends StatelessWidget {
       prefix: prefix,
       height: height,
       width: width,
+      info: info,
     );
   }
 }
@@ -60,7 +63,8 @@ class DoubleTextField extends StatelessWidget {
       @required this.name,
       this.prefix = true,
       this.height,
-      this.width})
+      this.width,
+      this.info})
       : super(key: key);
 
   final Function(double) onChanged;
@@ -69,6 +73,7 @@ class DoubleTextField extends StatelessWidget {
   final bool prefix;
   final double height;
   final double width;
+  final String info;
 
   void onTextChange(String text) {
     try {
@@ -96,6 +101,7 @@ class DoubleTextField extends StatelessWidget {
       prefix: prefix,
       height: height,
       width: width,
+      info: info,
     );
   }
 }
@@ -112,6 +118,7 @@ class MyTextField extends StatelessWidget {
     this.prefix = true,
     this.height,
     this.width,
+    this.info,
   }) : super(key: key);
 
   final String name;
@@ -123,6 +130,7 @@ class MyTextField extends StatelessWidget {
   final bool prefix;
   final double height;
   final double width;
+  final String info;
 
   @override
   Widget build(BuildContext context) {
@@ -130,8 +138,10 @@ class MyTextField extends StatelessWidget {
     final h = MediaQuery.of(context).size.height;
     final double textSize = h * 0.03;
     return CardBase(
-      height: height,
+      height: height ?? h * 0.08,
       width: width,
+      info: info,
+      infoName: name,
       child: Center(
         child: TextField(
           controller: controller,

@@ -1,19 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:green_energy/analyze/cubit/analyze_cubit.dart';
 import 'package:green_energy/analyze/view/widgets/input_values.dart';
 import 'package:green_energy/analyze/view/widgets/value_displays.dart';
-import 'package:green_energy/common/card_base.dart';
-import 'package:green_energy/common/display_value.dart';
-import 'package:green_energy/common/input_buttons.dart';
-import 'package:green_energy/common/my_column.dart';
 import 'package:green_energy/common/my_text.dart';
 import 'package:green_energy/common/my_textfield.dart';
 import 'package:green_energy/models/solar_data.dart';
 import 'package:green_energy/utils.dart';
 import 'package:intl/intl.dart';
-import 'package:theme_provider/theme_provider.dart';
 
 class AnalyzePage extends StatelessWidget {
   const AnalyzePage({Key key, @required this.solarData}) : super(key: key);

@@ -11,6 +11,7 @@ class MyText extends StatelessWidget {
     this.maxlines = 1,
     this.strokeColor,
     this.bold = false,
+    this.justify = false,
   }) : super(key: key);
 
   final String text;
@@ -19,6 +20,7 @@ class MyText extends StatelessWidget {
   final int maxlines;
   final Color strokeColor;
   final bool bold;
+  final bool justify;
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +29,7 @@ class MyText extends StatelessWidget {
     return AutoSizeText(
       text ?? "NULL TEXT",
       maxLines: maxlines,
+      textAlign: justify ? TextAlign.justify : null,
       style: theme.textTheme.bodyText1.copyWith(
         color: textColor ?? theme.textTheme.bodyText1.color,
         fontWeight: bold ? FontWeight.w900 : FontWeight.normal,

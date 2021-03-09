@@ -25,7 +25,8 @@ class DisplayValue extends StatelessWidget {
     return CardBase(
       height: height,
       width: width,
-      info: "info",
+      info: info,
+      infoName: name,
       child: Row(children: [
         Expanded(
           child: MyText(

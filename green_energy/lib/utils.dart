@@ -129,3 +129,23 @@ double getMoneySaved(double energy, double electricityPrice) {
 double getCO2Reduction(double energy) {
   return energy * co2PerKwh;
 }
+
+String formatCO2Reduction(double co2Reduction) {
+  if (co2Reduction >= 1000) {
+    final co2Ton = roundAndRemoveTrailingZeros(co2Reduction / 1000);
+    return "$co2Ton t";
+  } else {
+    final co2Kg = roundAndRemoveTrailingZeros(co2Reduction);
+    return "$co2Kg kg";
+  }
+}
+
+String formatTotalEnergy(double totalEnergy) {
+  if (totalEnergy >= 1000) {
+    final mwh = roundAndRemoveTrailingZeros(totalEnergy / 1000);
+    return "$mwh MWh";
+  } else {
+    final kwh = roundAndRemoveTrailingZeros(totalEnergy);
+    return "$kwh kWh";
+  }
+}

@@ -30,16 +30,28 @@ class CalculatorCubit extends Cubit<CalculatorState> {
 
   void changeCalculatorType() {
     _log.fine("change calculator type advanced: ${!state.advanced}");
+    if (state.status.isSubmissionInProgress) {
+      _log.fine("dismiss, because submissionInProgress");
+      return;
+    }
     emit(state.copyWith(advanced: !state.advanced));
   }
 
   void moveMap(LatLng latLng) {
     _log.fine("move map to lat: ${latLng.latitude}, lon: ${latLng.longitude}");
+    if (state.status.isSubmissionInProgress) {
+      _log.fine("dismiss, because submissionInProgress");
+      return;
+    }
     mapController.move(latLng, 13);
   }
 
   void changeLatitude(double lat) {
     _log.fine("change latitude to $lat");
+    if (state.status.isSubmissionInProgress) {
+      _log.fine("dismiss, because submissionInProgress");
+      return;
+    }
     final latitude = Coordinate.dirty(lat);
     moveMap(LatLng(latitude.value, state.longitude.value));
     emit(
@@ -51,6 +63,10 @@ class CalculatorCubit extends Cubit<CalculatorState> {
 
   void changeLongitude(double lon) {
     _log.fine("change longitude to $lon");
+    if (state.status.isSubmissionInProgress) {
+      _log.fine("dismiss, because submissionInProgress");
+      return;
+    }
     final longitude = Coordinate.dirty(lon);
     moveMap(LatLng(state.latitude.value, longitude.value));
     emit(
@@ -65,6 +81,10 @@ class CalculatorCubit extends Cubit<CalculatorState> {
     final longitude = Coordinate.dirty(lon);
     //moveMap(LatLng(latitude.value, longitude.value));
     _log.fine("change coords to lat: $lat, lon: $lon");
+    if (state.status.isSubmissionInProgress) {
+      _log.fine("dismiss, because submissionInProgress");
+      return;
+    }
     emit(
       state.copyWith(
           latitude: latitude,
@@ -75,11 +95,19 @@ class CalculatorCubit extends Cubit<CalculatorState> {
 
   void changePeakPower(double peakpower) {
     _log.fine("change peakpower to $peakpower");
+    if (state.status.isSubmissionInProgress) {
+      _log.fine("dismiss, because submissionInProgress");
+      return;
+    }
     emit(state.copyWith(peakpower: peakpower));
   }
 
   void changeSystemLoss(double loss) {
     _log.fine("change loss to $loss");
+    if (state.status.isSubmissionInProgress) {
+      _log.fine("dismiss, because submissionInProgress");
+      return;
+    }
     emit(state.copyWith(loss: loss));
   }
 

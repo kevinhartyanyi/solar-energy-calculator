@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:green_energy/analyze/cubit/analyze_cubit.dart';
 import 'package:green_energy/common/display_value.dart';
 import 'package:green_energy/utils.dart';
+import 'package:intl/intl.dart';
 
 class TotalEnergy extends StatelessWidget {
   const TotalEnergy({Key key}) : super(key: key);
@@ -12,10 +13,11 @@ class TotalEnergy extends StatelessWidget {
     return BlocBuilder<AnalyzeCubit, AnalyzeState>(
       builder: (context, state) {
         final h = MediaQuery.of(context).size.height;
+        final totalEnergyString = formatTotalEnergy(state.totalEnergy);
         return DisplayValue(
           height: h * 0.08,
           name: "Total Energy",
-          value: roundAndRemoveTrailingZeros(state.totalEnergy),
+          value: totalEnergyString,
         );
       },
     );
@@ -51,10 +53,11 @@ class CO2Reduction extends StatelessWidget {
       builder: (context, state) {
         final h = MediaQuery.of(context).size.height;
         final co2Reduction = getCO2Reduction(state.totalEnergy);
+        final co2ReductionString = formatCO2Reduction(co2Reduction);
         return DisplayValue(
           height: h * 0.08,
           name: "CO2 Reduction",
-          value: roundAndRemoveTrailingZeros(co2Reduction),
+          value: co2ReductionString,
         );
       },
     );

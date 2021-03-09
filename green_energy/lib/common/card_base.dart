@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:green_energy/common/info.dart';
+import 'package:green_energy/common/my_dialog.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:theme_provider/theme_provider.dart';
 
@@ -9,16 +11,35 @@ class CardBase extends StatelessWidget {
       this.padding,
       this.height,
       this.width,
-      this.info})
-      : super(key: key);
+      this.info,
+      this.infoName})
+      : assert(info == null || (info != null && infoName != null)),
+        super(key: key);
 
   final Widget child;
   final EdgeInsets padding;
   final double height;
   final double width;
   final String info;
+  final String infoName;
 
-  Widget getChild(ThemeData theme) {
+  void showInfo(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    final width = size.width;
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return MyDialog(
+              height: width * 0.8,
+              width: width * 0.8,
+              child: Info(
+                name: infoName,
+                info: info,
+              ));
+        });
+  }
+
+  Widget getChild(ThemeData theme, BuildContext context) {
     Widget getBase(ThemeData theme, {double baseWidth, double baseHeight}) {
       return Ink(
         height: baseHeight,
@@ -50,7 +71,8 @@ class CardBase extends StatelessWidget {
           children: [
             Positioned.fill(child: getBase(theme)),
             IconButton(
-                icon: const Icon(MdiIcons.informationOutline), onPressed: () {})
+                icon: const Icon(MdiIcons.informationOutline),
+                onPressed: () => showInfo(context))
           ],
         ),
       );
@@ -60,6 +82,6 @@ class CardBase extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = ThemeProvider.themeOf(context).data;
-    return getChild(theme);
+    return getChild(theme, context);
   }
 }
