@@ -6,7 +6,7 @@ abstract class CalculatorState with _$CalculatorState {
     @Default(false) bool advanced,
     Coordinate latitude,
     Coordinate longitude,
-    @Default(1000) double peakpower,
+    @Default(1000) int peakpower,
     @Default(14) double loss,
     String errorMessage,
     @Default(FormzStatus.pure) FormzStatus status,

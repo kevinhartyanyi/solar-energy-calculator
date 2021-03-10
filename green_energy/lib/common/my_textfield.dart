@@ -13,7 +13,8 @@ class IntTextField extends StatelessWidget {
       this.prefix = true,
       this.height,
       this.width,
-      this.info})
+      this.info,
+      this.suffix})
       : super(key: key);
 
   final Function(int) onChanged;
@@ -23,6 +24,7 @@ class IntTextField extends StatelessWidget {
   final double height;
   final double width;
   final String info;
+  final String suffix;
 
   void onTextChange(String text) {
     try {
@@ -51,6 +53,7 @@ class IntTextField extends StatelessWidget {
       height: height,
       width: width,
       info: info,
+      suffix: suffix,
     );
   }
 }
@@ -64,7 +67,8 @@ class DoubleTextField extends StatelessWidget {
       this.prefix = true,
       this.height,
       this.width,
-      this.info})
+      this.info,
+      this.suffix})
       : super(key: key);
 
   final Function(double) onChanged;
@@ -74,6 +78,7 @@ class DoubleTextField extends StatelessWidget {
   final double height;
   final double width;
   final String info;
+  final String suffix;
 
   void onTextChange(String text) {
     try {
@@ -102,6 +107,7 @@ class DoubleTextField extends StatelessWidget {
       height: height,
       width: width,
       info: info,
+      suffix: suffix,
     );
   }
 }
@@ -119,6 +125,7 @@ class MyTextField extends StatelessWidget {
     this.height,
     this.width,
     this.info,
+    this.suffix,
   }) : super(key: key);
 
   final String name;
@@ -131,6 +138,7 @@ class MyTextField extends StatelessWidget {
   final double height;
   final double width;
   final String info;
+  final String suffix;
 
   @override
   Widget build(BuildContext context) {
@@ -139,7 +147,7 @@ class MyTextField extends StatelessWidget {
     final double textSize = h * 0.03;
     return CardBase(
       height: height ?? h * 0.08,
-      width: width,
+      width: width ?? double.infinity,
       info: info,
       infoName: name,
       child: Center(
@@ -149,11 +157,15 @@ class MyTextField extends StatelessWidget {
           keyboardType: keyboardType,
           inputFormatters: inputFormatters,
           cursorColor: theme.accentColor,
+          textAlign: TextAlign.center,
           style: theme.textTheme.bodyText1.copyWith(fontSize: h * 0.03),
           decoration: InputDecoration(
               prefix: prefix
                   ? TextFieldPrefix(text: name, textSize: textSize)
                   : null,
+              suffixText: suffix == null ? null : "$suffix  ",
+              suffixStyle: theme.textTheme.bodyText1
+                  .copyWith(fontSize: h * 0.03, fontWeight: FontWeight.w900),
               border: InputBorder.none,
               contentPadding:
                   const EdgeInsets.only(left: 15, bottom: 5, top: 5, right: 15),

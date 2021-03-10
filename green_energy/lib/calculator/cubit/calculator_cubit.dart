@@ -93,7 +93,7 @@ class CalculatorCubit extends Cubit<CalculatorState> {
     );
   }
 
-  void changePeakPower(double peakpower) {
+  void changePeakPower(int peakpower) {
     _log.fine("change peakpower to $peakpower");
     if (state.status.isSubmissionInProgress) {
       _log.fine("dismiss, because submissionInProgress");

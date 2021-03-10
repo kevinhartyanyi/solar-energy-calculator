@@ -18,7 +18,7 @@ class _$CalculatorStateTearOff {
       {bool advanced = false,
       Coordinate latitude,
       Coordinate longitude,
-      double peakpower = 1000,
+      int peakpower = 1000,
       double loss = 14,
       String errorMessage,
       FormzStatus status = FormzStatus.pure,
@@ -45,7 +45,7 @@ mixin _$CalculatorState {
   bool get advanced;
   Coordinate get latitude;
   Coordinate get longitude;
-  double get peakpower;
+  int get peakpower;
   double get loss;
   String get errorMessage;
   FormzStatus get status;
@@ -58,7 +58,7 @@ mixin _$CalculatorState {
             bool advanced,
             Coordinate latitude,
             Coordinate longitude,
-            double peakpower,
+            int peakpower,
             double loss,
             String errorMessage,
             FormzStatus status,
@@ -70,7 +70,7 @@ mixin _$CalculatorState {
         bool advanced,
         Coordinate latitude,
         Coordinate longitude,
-        double peakpower,
+        int peakpower,
         double loss,
         String errorMessage,
         FormzStatus status,
@@ -100,7 +100,7 @@ abstract class $CalculatorStateCopyWith<$Res> {
       {bool advanced,
       Coordinate latitude,
       Coordinate longitude,
-      double peakpower,
+      int peakpower,
       double loss,
       String errorMessage,
       FormzStatus status,
@@ -132,7 +132,7 @@ class _$CalculatorStateCopyWithImpl<$Res>
       latitude: latitude == freezed ? _value.latitude : latitude as Coordinate,
       longitude:
           longitude == freezed ? _value.longitude : longitude as Coordinate,
-      peakpower: peakpower == freezed ? _value.peakpower : peakpower as double,
+      peakpower: peakpower == freezed ? _value.peakpower : peakpower as int,
       loss: loss == freezed ? _value.loss : loss as double,
       errorMessage: errorMessage == freezed
           ? _value.errorMessage
@@ -154,7 +154,7 @@ abstract class _$InitialCopyWith<$Res>
       {bool advanced,
       Coordinate latitude,
       Coordinate longitude,
-      double peakpower,
+      int peakpower,
       double loss,
       String errorMessage,
       FormzStatus status,
@@ -186,7 +186,7 @@ class __$InitialCopyWithImpl<$Res> extends _$CalculatorStateCopyWithImpl<$Res>
       latitude: latitude == freezed ? _value.latitude : latitude as Coordinate,
       longitude:
           longitude == freezed ? _value.longitude : longitude as Coordinate,
-      peakpower: peakpower == freezed ? _value.peakpower : peakpower as double,
+      peakpower: peakpower == freezed ? _value.peakpower : peakpower as int,
       loss: loss == freezed ? _value.loss : loss as double,
       errorMessage: errorMessage == freezed
           ? _value.errorMessage
@@ -223,7 +223,7 @@ class _$_Initial implements _Initial {
   final Coordinate longitude;
   @JsonKey(defaultValue: 1000)
   @override
-  final double peakpower;
+  final int peakpower;
   @JsonKey(defaultValue: 14)
   @override
   final double loss;
@@ -293,7 +293,7 @@ class _$_Initial implements _Initial {
             bool advanced,
             Coordinate latitude,
             Coordinate longitude,
-            double peakpower,
+            int peakpower,
             double loss,
             String errorMessage,
             FormzStatus status,
@@ -311,7 +311,7 @@ class _$_Initial implements _Initial {
         bool advanced,
         Coordinate latitude,
         Coordinate longitude,
-        double peakpower,
+        int peakpower,
         double loss,
         String errorMessage,
         FormzStatus status,
@@ -354,7 +354,7 @@ abstract class _Initial implements CalculatorState {
       {bool advanced,
       Coordinate latitude,
       Coordinate longitude,
-      double peakpower,
+      int peakpower,
       double loss,
       String errorMessage,
       FormzStatus status,
@@ -367,7 +367,7 @@ abstract class _Initial implements CalculatorState {
   @override
   Coordinate get longitude;
   @override
-  double get peakpower;
+  int get peakpower;
   @override
   double get loss;
   @override

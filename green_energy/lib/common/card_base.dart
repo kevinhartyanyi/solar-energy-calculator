@@ -30,8 +30,8 @@ class CardBase extends StatelessWidget {
         context: context,
         builder: (BuildContext context) {
           return MyDialog(
-              height: width * 0.8,
-              width: width * 0.8,
+              height: width * 0.9,
+              width: width * 0.9,
               child: Info(
                 name: infoName,
                 info: info,

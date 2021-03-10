@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:green_energy/common/my_text.dart';
 import 'package:theme_provider/theme_provider.dart';
 
@@ -15,6 +16,7 @@ class Info extends StatelessWidget {
     final size = MediaQuery.of(context).size;
     final w = size.width;
     final h = size.height;
+    final infoTextSize = info.length > 200 ? h * 0.02 : h * 0.028;
     return Column(
       children: [
         MyText(
@@ -28,13 +30,26 @@ class Info extends StatelessWidget {
           endIndent: w * 0.1,
         ),
         Expanded(
-          child: MyText(
-            info,
-            justify: true,
-            maxlines: null,
-            textSize: h * 0.03,
+          child: Markdown(
+            data: info,
+            styleSheet: MarkdownStyleSheet.fromTheme(Theme.of(context))
+                .copyWith(
+                    listBullet: Theme.of(context).textTheme.bodyText1.copyWith(
+                        fontSize: infoTextSize,
+                        color: theme.textTheme.bodyText1.color),
+                    p: Theme.of(context).textTheme.bodyText1.copyWith(
+                        fontSize: infoTextSize,
+                        color: theme.textTheme.bodyText1.color)),
           ),
         ),
+        // Expanded(
+        //   child: MyText(
+        //     info,
+        //     justify: true,
+        //     maxlines: null,
+        //     textSize: h * 0.03,
+        //   ),
+        // ),
       ],
     );
   }

@@ -40,6 +40,7 @@ dependencies:
   jiffy: ^4.0.0
   theme_provider: ^0.5.0
   material_design_icons_flutter: ^4.0.5855
+  flutter_markdown: ^0.6.0
 
 
 

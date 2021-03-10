@@ -2,17 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:green_energy/calculator/cubit/calculator_cubit.dart';
 import 'package:formz/formz.dart';
-import 'package:green_energy/calculator/view/widgets/map_marker.dart';
-import 'package:green_energy/calculator/view/widgets/zoombuttons_plugin_options.dart';
+import 'package:green_energy/calculator/view/widgets/coordinates.dart';
+import 'package:green_energy/calculator/view/widgets/geo_map.dart';
 import 'package:green_energy/common/card_base.dart';
 import 'package:green_energy/common/my_column.dart';
 import 'package:green_energy/common/my_switch.dart';
 import 'package:green_energy/common/my_text.dart';
-import 'package:flutter_map/flutter_map.dart';
 import 'package:green_energy/common/my_textfield.dart';
-import 'package:latlong/latlong.dart';
+import 'package:green_energy/strings.dart';
 import 'package:theme_provider/theme_provider.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:green_energy/router/my_router.dart';
 import 'package:auto_route/auto_route.dart';
 
@@ -58,20 +56,79 @@ class Calculator extends StatelessWidget {
       child: const MyColumn(
         children: [
           Expanded(child: SelectCalculatorType()),
-          Expanded(
-            flex: 6,
-            child: GeoMap(),
-          ),
-          SizedBox(
-            height: 8.0,
-          ),
-          Expanded(child: Coordinates()),
+          Expanded(flex: 8, child: CalculatorType()),
           Expanded(child: SubmitButton()),
           SizedBox(
             height: 8.0,
           ),
         ],
       ),
+    );
+  }
+}
+
+class CalculatorType extends StatelessWidget {
+  const CalculatorType({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<CalculatorCubit, CalculatorState>(
+      builder: (context, state) {
+        return AnimatedSwitcher(
+          duration: const Duration(milliseconds: 500),
+          child: state.advanced
+              ? const AdvancedCalculator()
+              : const SimpleCalculator(),
+        );
+      },
+    );
+  }
+}
+
+class AdvancedCalculator extends StatelessWidget {
+  const AdvancedCalculator({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: const [
+        Expanded(
+          flex: 8,
+          child: GeoMap(),
+        ),
+        SizedBox(
+          height: 8.0,
+        ),
+        Expanded(child: Coordinates()),
+        SizedBox(
+          height: 8.0,
+        ),
+        Expanded(child: PeakPowerInput()),
+        SizedBox(
+          height: 8.0,
+        ),
+        Expanded(child: SystemLossInput()),
+      ],
+    );
+  }
+}
+
+class SimpleCalculator extends StatelessWidget {
+  const SimpleCalculator({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: const [
+        Expanded(
+          flex: 6,
+          child: GeoMap(),
+        ),
+        SizedBox(
+          height: 8.0,
+        ),
+        Expanded(child: Coordinates()),
+      ],
     );
   }
 }
@@ -97,124 +154,38 @@ class SelectCalculatorType extends StatelessWidget {
   }
 }
 
-class Coordinates extends StatelessWidget {
-  const Coordinates({Key key}) : super(key: key);
+class PeakPowerInput extends StatelessWidget {
+  const PeakPowerInput({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
-      child: Row(
-        children: const [
-          Expanded(child: LatitudeInput()),
-          SizedBox(
-            width: 16.0,
-          ),
-          Expanded(child: LongitudeInput())
-        ],
-      ),
-    );
-  }
-}
-
-class LatitudeInput extends StatelessWidget {
-  const LatitudeInput({Key key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final cubit = BlocProvider.of<CalculatorCubit>(context);
-    return BlocBuilder<CalculatorCubit, CalculatorState>(
-      builder: (context, state) {
-        return DoubleTextField(
-          name: "Lat",
-          currentValue: state.latitude.value,
-          onChanged: cubit.changeLatitude,
-        );
+    final cubit = context.read<CalculatorCubit>();
+    return IntTextField(
+      onChanged: (value) {
+        cubit.changePeakPower(value);
       },
+      currentValue: cubit.state.peakpower,
+      name: "Peak power",
+      suffix: "W",
+      info: peakPowerInfo,
     );
   }
 }
 
-class LongitudeInput extends StatelessWidget {
-  const LongitudeInput({Key key}) : super(key: key);
+class SystemLossInput extends StatelessWidget {
+  const SystemLossInput({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final cubit = BlocProvider.of<CalculatorCubit>(context);
-    return BlocBuilder<CalculatorCubit, CalculatorState>(
-      builder: (context, state) {
-        return DoubleTextField(
-          name: "Lon",
-          currentValue: state.longitude.value,
-          onChanged: cubit.changeLongitude,
-        );
+    final cubit = context.read<CalculatorCubit>();
+    return DoubleTextField(
+      onChanged: (value) {
+        cubit.changeSystemLoss(value);
       },
-    );
-  }
-}
-
-class GeoMap extends StatelessWidget {
-  const GeoMap({Key key}) : super(key: key);
-
-  void mapOnTap(BuildContext context, LatLng latLong) {
-    final cubit = BlocProvider.of<CalculatorCubit>(context);
-    cubit.changeCoords(lat: latLong.latitude, lon: latLong.longitude);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(30),
-      child: BlocBuilder<CalculatorCubit, CalculatorState>(
-        buildWhen: (previous, current) =>
-            previous.latitude != current.latitude ||
-            previous.longitude != current.longitude,
-        builder: (context, state) {
-          final h = MediaQuery.of(context).size.height;
-          final theme = ThemeProvider.themeOf(context).data;
-          final cubit = BlocProvider.of<CalculatorCubit>(context);
-          final marker = [
-            Marker(
-                point: LatLng(state.latitude.value, state.longitude.value),
-                width: h * 0.03,
-                height: h * 0.03,
-                builder: (context) {
-                  return const MapMarker();
-                })
-          ];
-          return FlutterMap(
-            mapController: cubit.mapController,
-            options: MapOptions(
-                center: LatLng(
-                    cubit.state.latitude.value, cubit.state.longitude.value),
-                zoom: 5.0,
-                plugins: [
-                  ZoomButtonsPlugin(),
-                ],
-                onTap: (latLong) {
-                  mapOnTap(context, latLong);
-                }),
-            layers: [
-              TileLayerOptions(
-                  urlTemplate:
-                      "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-                  subdomains: ['a', 'b', 'c']),
-              MarkerLayerOptions(markers: marker),
-            ],
-            nonRotatedLayers: [
-              ZoomButtonsPluginOption(
-                minZoom: 4,
-                maxZoom: 19,
-                mini: true,
-                padding: 10,
-                zoomInColorIcon: theme.focusColor,
-                zoomOutColorIcon: theme.focusColor,
-                alignment: Alignment.bottomRight,
-              ),
-            ],
-          );
-        },
-      ),
+      currentValue: cubit.state.loss,
+      name: "System loss",
+      suffix: "%",
+      info: systemLossInfo,
     );
   }
 }

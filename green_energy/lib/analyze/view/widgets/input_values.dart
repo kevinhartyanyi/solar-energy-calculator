@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:green_energy/analyze/cubit/analyze_cubit.dart';
 import 'package:green_energy/common/my_textfield.dart';
+import 'package:green_energy/strings.dart';
 
 class Cost extends StatelessWidget {
   const Cost({Key key}) : super(key: key);
@@ -14,8 +15,7 @@ class Cost extends StatelessWidget {
         currentValue: cubit.state.panelCost,
         onChanged: cubit.changePanelCost,
         prefix: false,
-        info:
-            'This is used for calculating the amount of time that you would need to break even.\nYou can use any currency, just keep it consistent with the "electricity price"');
+        info: costInfo);
   }
 }
 
@@ -30,8 +30,7 @@ class ElectricityPrice extends StatelessWidget {
         currentValue: cubit.state.electricityPrice,
         onChanged: cubit.changeElectricityPricePrice,
         prefix: false,
-        info:
-            'This is used for calculating the money saved by using the solar panel(s).\nYou can use any currency, just keep it consistent with the "cost of a single panel".');
+        info: electricityPriceInfo);
   }
 }
 
@@ -47,7 +46,7 @@ class Amount extends StatelessWidget {
       currentValue: cubit.state.amount,
       onChanged: cubit.changeAmount,
       prefix: false,
-      info: "The number of solar panels that you want to calculate with.",
+      info: amountInfo,
     );
   }
 }
