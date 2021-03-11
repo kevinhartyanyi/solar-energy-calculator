@@ -149,3 +149,46 @@ String formatTotalEnergy(double totalEnergy) {
     return "$kwh kWh";
   }
 }
+
+String monthToString(int month) {
+  switch (month) {
+    case DateTime.january:
+      return "Jan.";
+      break;
+    case DateTime.february:
+      return "Feb.";
+      break;
+    case DateTime.march:
+      return "Mar.";
+      break;
+    case DateTime.april:
+      return "Apr.";
+      break;
+    case DateTime.may:
+      return "May.";
+      break;
+    case DateTime.june:
+      return "Jun.";
+      break;
+    case DateTime.july:
+      return "Jul.";
+      break;
+    case DateTime.august:
+      return "Aug.";
+      break;
+    case DateTime.september:
+      return "Sep.";
+      break;
+    case DateTime.october:
+      return "Oct.";
+      break;
+    case DateTime.november:
+      return "Nov.";
+      break;
+    case DateTime.december:
+      return "Dec.";
+      break;
+    default:
+      return "Error";
+  }
+}

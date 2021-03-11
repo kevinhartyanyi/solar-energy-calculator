@@ -39,7 +39,6 @@ class Amount extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final h = MediaQuery.of(context).size.height;
     final cubit = BlocProvider.of<AnalyzeCubit>(context);
     return IntTextField(
       name: "Amount",

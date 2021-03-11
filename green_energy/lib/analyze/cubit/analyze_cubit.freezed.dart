@@ -21,7 +21,8 @@ class _$AnalyzeStateTearOff {
       DateTime end,
       double electricityPrice = 1,
       double panelCost = 100,
-      double totalEnergy}) {
+      double totalEnergy,
+      String barChartText}) {
     return _Initial(
       solarData: solarData,
       amount: amount,
@@ -30,6 +31,7 @@ class _$AnalyzeStateTearOff {
       electricityPrice: electricityPrice,
       panelCost: panelCost,
       totalEnergy: totalEnergy,
+      barChartText: barChartText,
     );
   }
 }
@@ -47,6 +49,7 @@ mixin _$AnalyzeState {
   double get electricityPrice;
   double get panelCost;
   double get totalEnergy;
+  String get barChartText;
 
   @optionalTypeArgs
   TResult when<TResult extends Object>({
@@ -58,7 +61,8 @@ mixin _$AnalyzeState {
             DateTime end,
             double electricityPrice,
             double panelCost,
-            double totalEnergy),
+            double totalEnergy,
+            String barChartText),
   });
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object>({
@@ -69,7 +73,8 @@ mixin _$AnalyzeState {
         DateTime end,
         double electricityPrice,
         double panelCost,
-        double totalEnergy),
+        double totalEnergy,
+        String barChartText),
     @required TResult orElse(),
   });
   @optionalTypeArgs
@@ -98,7 +103,8 @@ abstract class $AnalyzeStateCopyWith<$Res> {
       DateTime end,
       double electricityPrice,
       double panelCost,
-      double totalEnergy});
+      double totalEnergy,
+      String barChartText});
 }
 
 /// @nodoc
@@ -118,6 +124,7 @@ class _$AnalyzeStateCopyWithImpl<$Res> implements $AnalyzeStateCopyWith<$Res> {
     Object electricityPrice = freezed,
     Object panelCost = freezed,
     Object totalEnergy = freezed,
+    Object barChartText = freezed,
   }) {
     return _then(_value.copyWith(
       solarData:
@@ -132,6 +139,9 @@ class _$AnalyzeStateCopyWithImpl<$Res> implements $AnalyzeStateCopyWith<$Res> {
       panelCost: panelCost == freezed ? _value.panelCost : panelCost as double,
       totalEnergy:
           totalEnergy == freezed ? _value.totalEnergy : totalEnergy as double,
+      barChartText: barChartText == freezed
+          ? _value.barChartText
+          : barChartText as String,
     ));
   }
 }
@@ -148,7 +158,8 @@ abstract class _$InitialCopyWith<$Res> implements $AnalyzeStateCopyWith<$Res> {
       DateTime end,
       double electricityPrice,
       double panelCost,
-      double totalEnergy});
+      double totalEnergy,
+      String barChartText});
 }
 
 /// @nodoc
@@ -169,6 +180,7 @@ class __$InitialCopyWithImpl<$Res> extends _$AnalyzeStateCopyWithImpl<$Res>
     Object electricityPrice = freezed,
     Object panelCost = freezed,
     Object totalEnergy = freezed,
+    Object barChartText = freezed,
   }) {
     return _then(_Initial(
       solarData:
@@ -183,6 +195,9 @@ class __$InitialCopyWithImpl<$Res> extends _$AnalyzeStateCopyWithImpl<$Res>
       panelCost: panelCost == freezed ? _value.panelCost : panelCost as double,
       totalEnergy:
           totalEnergy == freezed ? _value.totalEnergy : totalEnergy as double,
+      barChartText: barChartText == freezed
+          ? _value.barChartText
+          : barChartText as String,
     ));
   }
 }
@@ -196,7 +211,8 @@ class _$_Initial implements _Initial {
       this.end,
       this.electricityPrice = 1,
       this.panelCost = 100,
-      this.totalEnergy})
+      this.totalEnergy,
+      this.barChartText})
       : assert(amount != null),
         assert(electricityPrice != null),
         assert(panelCost != null);
@@ -218,10 +234,12 @@ class _$_Initial implements _Initial {
   final double panelCost;
   @override
   final double totalEnergy;
+  @override
+  final String barChartText;
 
   @override
   String toString() {
-    return 'AnalyzeState.initial(solarData: $solarData, amount: $amount, instalment: $instalment, end: $end, electricityPrice: $electricityPrice, panelCost: $panelCost, totalEnergy: $totalEnergy)';
+    return 'AnalyzeState.initial(solarData: $solarData, amount: $amount, instalment: $instalment, end: $end, electricityPrice: $electricityPrice, panelCost: $panelCost, totalEnergy: $totalEnergy, barChartText: $barChartText)';
   }
 
   @override
@@ -246,7 +264,10 @@ class _$_Initial implements _Initial {
                     .equals(other.panelCost, panelCost)) &&
             (identical(other.totalEnergy, totalEnergy) ||
                 const DeepCollectionEquality()
-                    .equals(other.totalEnergy, totalEnergy)));
+                    .equals(other.totalEnergy, totalEnergy)) &&
+            (identical(other.barChartText, barChartText) ||
+                const DeepCollectionEquality()
+                    .equals(other.barChartText, barChartText)));
   }
 
   @override
@@ -258,7 +279,8 @@ class _$_Initial implements _Initial {
       const DeepCollectionEquality().hash(end) ^
       const DeepCollectionEquality().hash(electricityPrice) ^
       const DeepCollectionEquality().hash(panelCost) ^
-      const DeepCollectionEquality().hash(totalEnergy);
+      const DeepCollectionEquality().hash(totalEnergy) ^
+      const DeepCollectionEquality().hash(barChartText);
 
   @JsonKey(ignore: true)
   @override
@@ -276,11 +298,12 @@ class _$_Initial implements _Initial {
             DateTime end,
             double electricityPrice,
             double panelCost,
-            double totalEnergy),
+            double totalEnergy,
+            String barChartText),
   }) {
     assert(initial != null);
     return initial(solarData, amount, instalment, end, electricityPrice,
-        panelCost, totalEnergy);
+        panelCost, totalEnergy, barChartText);
   }
 
   @override
@@ -293,13 +316,14 @@ class _$_Initial implements _Initial {
         DateTime end,
         double electricityPrice,
         double panelCost,
-        double totalEnergy),
+        double totalEnergy,
+        String barChartText),
     @required TResult orElse(),
   }) {
     assert(orElse != null);
     if (initial != null) {
       return initial(solarData, amount, instalment, end, electricityPrice,
-          panelCost, totalEnergy);
+          panelCost, totalEnergy, barChartText);
     }
     return orElse();
   }
@@ -335,7 +359,8 @@ abstract class _Initial implements AnalyzeState {
       DateTime end,
       double electricityPrice,
       double panelCost,
-      double totalEnergy}) = _$_Initial;
+      double totalEnergy,
+      String barChartText}) = _$_Initial;
 
   @override
   SolarData get solarData;
@@ -351,6 +376,8 @@ abstract class _Initial implements AnalyzeState {
   double get panelCost;
   @override
   double get totalEnergy;
+  @override
+  String get barChartText;
   @override
   @JsonKey(ignore: true)
   _$InitialCopyWith<_Initial> get copyWith;

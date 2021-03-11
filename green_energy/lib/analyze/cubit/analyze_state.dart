@@ -9,5 +9,6 @@ abstract class AnalyzeState with _$AnalyzeState {
       DateTime end,
       @Default(1) double electricityPrice,
       @Default(100) double panelCost,
-      double totalEnergy}) = _Initial;
+      double totalEnergy,
+      String barChartText}) = _Initial;
 }
