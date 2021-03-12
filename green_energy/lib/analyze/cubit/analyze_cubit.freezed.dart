@@ -20,7 +20,7 @@ class _$AnalyzeStateTearOff {
       DateTime instalment,
       DateTime end,
       double electricityPrice = 1,
-      double panelCost = 100,
+      double costs = 1,
       double totalEnergy,
       String barChartText,
       String areaChartText}) {
@@ -30,7 +30,7 @@ class _$AnalyzeStateTearOff {
       instalment: instalment,
       end: end,
       electricityPrice: electricityPrice,
-      panelCost: panelCost,
+      costs: costs,
       totalEnergy: totalEnergy,
       barChartText: barChartText,
       areaChartText: areaChartText,
@@ -49,7 +49,7 @@ mixin _$AnalyzeState {
   DateTime get instalment;
   DateTime get end;
   double get electricityPrice;
-  double get panelCost;
+  double get costs;
   double get totalEnergy;
   String get barChartText;
   String get areaChartText;
@@ -63,7 +63,7 @@ mixin _$AnalyzeState {
             DateTime instalment,
             DateTime end,
             double electricityPrice,
-            double panelCost,
+            double costs,
             double totalEnergy,
             String barChartText,
             String areaChartText),
@@ -76,7 +76,7 @@ mixin _$AnalyzeState {
         DateTime instalment,
         DateTime end,
         double electricityPrice,
-        double panelCost,
+        double costs,
         double totalEnergy,
         String barChartText,
         String areaChartText),
@@ -107,7 +107,7 @@ abstract class $AnalyzeStateCopyWith<$Res> {
       DateTime instalment,
       DateTime end,
       double electricityPrice,
-      double panelCost,
+      double costs,
       double totalEnergy,
       String barChartText,
       String areaChartText});
@@ -128,7 +128,7 @@ class _$AnalyzeStateCopyWithImpl<$Res> implements $AnalyzeStateCopyWith<$Res> {
     Object instalment = freezed,
     Object end = freezed,
     Object electricityPrice = freezed,
-    Object panelCost = freezed,
+    Object costs = freezed,
     Object totalEnergy = freezed,
     Object barChartText = freezed,
     Object areaChartText = freezed,
@@ -143,7 +143,7 @@ class _$AnalyzeStateCopyWithImpl<$Res> implements $AnalyzeStateCopyWith<$Res> {
       electricityPrice: electricityPrice == freezed
           ? _value.electricityPrice
           : electricityPrice as double,
-      panelCost: panelCost == freezed ? _value.panelCost : panelCost as double,
+      costs: costs == freezed ? _value.costs : costs as double,
       totalEnergy:
           totalEnergy == freezed ? _value.totalEnergy : totalEnergy as double,
       barChartText: barChartText == freezed
@@ -167,7 +167,7 @@ abstract class _$InitialCopyWith<$Res> implements $AnalyzeStateCopyWith<$Res> {
       DateTime instalment,
       DateTime end,
       double electricityPrice,
-      double panelCost,
+      double costs,
       double totalEnergy,
       String barChartText,
       String areaChartText});
@@ -189,7 +189,7 @@ class __$InitialCopyWithImpl<$Res> extends _$AnalyzeStateCopyWithImpl<$Res>
     Object instalment = freezed,
     Object end = freezed,
     Object electricityPrice = freezed,
-    Object panelCost = freezed,
+    Object costs = freezed,
     Object totalEnergy = freezed,
     Object barChartText = freezed,
     Object areaChartText = freezed,
@@ -204,7 +204,7 @@ class __$InitialCopyWithImpl<$Res> extends _$AnalyzeStateCopyWithImpl<$Res>
       electricityPrice: electricityPrice == freezed
           ? _value.electricityPrice
           : electricityPrice as double,
-      panelCost: panelCost == freezed ? _value.panelCost : panelCost as double,
+      costs: costs == freezed ? _value.costs : costs as double,
       totalEnergy:
           totalEnergy == freezed ? _value.totalEnergy : totalEnergy as double,
       barChartText: barChartText == freezed
@@ -225,13 +225,13 @@ class _$_Initial implements _Initial {
       this.instalment,
       this.end,
       this.electricityPrice = 1,
-      this.panelCost = 100,
+      this.costs = 1,
       this.totalEnergy,
       this.barChartText,
       this.areaChartText})
       : assert(amount != null),
         assert(electricityPrice != null),
-        assert(panelCost != null);
+        assert(costs != null);
 
   @override
   final SolarData solarData;
@@ -245,9 +245,9 @@ class _$_Initial implements _Initial {
   @JsonKey(defaultValue: 1)
   @override
   final double electricityPrice;
-  @JsonKey(defaultValue: 100)
+  @JsonKey(defaultValue: 1)
   @override
-  final double panelCost;
+  final double costs;
   @override
   final double totalEnergy;
   @override
@@ -257,7 +257,7 @@ class _$_Initial implements _Initial {
 
   @override
   String toString() {
-    return 'AnalyzeState.initial(solarData: $solarData, amount: $amount, instalment: $instalment, end: $end, electricityPrice: $electricityPrice, panelCost: $panelCost, totalEnergy: $totalEnergy, barChartText: $barChartText, areaChartText: $areaChartText)';
+    return 'AnalyzeState.initial(solarData: $solarData, amount: $amount, instalment: $instalment, end: $end, electricityPrice: $electricityPrice, costs: $costs, totalEnergy: $totalEnergy, barChartText: $barChartText, areaChartText: $areaChartText)';
   }
 
   @override
@@ -277,9 +277,8 @@ class _$_Initial implements _Initial {
             (identical(other.electricityPrice, electricityPrice) ||
                 const DeepCollectionEquality()
                     .equals(other.electricityPrice, electricityPrice)) &&
-            (identical(other.panelCost, panelCost) ||
-                const DeepCollectionEquality()
-                    .equals(other.panelCost, panelCost)) &&
+            (identical(other.costs, costs) ||
+                const DeepCollectionEquality().equals(other.costs, costs)) &&
             (identical(other.totalEnergy, totalEnergy) ||
                 const DeepCollectionEquality()
                     .equals(other.totalEnergy, totalEnergy)) &&
@@ -299,7 +298,7 @@ class _$_Initial implements _Initial {
       const DeepCollectionEquality().hash(instalment) ^
       const DeepCollectionEquality().hash(end) ^
       const DeepCollectionEquality().hash(electricityPrice) ^
-      const DeepCollectionEquality().hash(panelCost) ^
+      const DeepCollectionEquality().hash(costs) ^
       const DeepCollectionEquality().hash(totalEnergy) ^
       const DeepCollectionEquality().hash(barChartText) ^
       const DeepCollectionEquality().hash(areaChartText);
@@ -319,14 +318,14 @@ class _$_Initial implements _Initial {
             DateTime instalment,
             DateTime end,
             double electricityPrice,
-            double panelCost,
+            double costs,
             double totalEnergy,
             String barChartText,
             String areaChartText),
   }) {
     assert(initial != null);
-    return initial(solarData, amount, instalment, end, electricityPrice,
-        panelCost, totalEnergy, barChartText, areaChartText);
+    return initial(solarData, amount, instalment, end, electricityPrice, costs,
+        totalEnergy, barChartText, areaChartText);
   }
 
   @override
@@ -338,7 +337,7 @@ class _$_Initial implements _Initial {
         DateTime instalment,
         DateTime end,
         double electricityPrice,
-        double panelCost,
+        double costs,
         double totalEnergy,
         String barChartText,
         String areaChartText),
@@ -347,7 +346,7 @@ class _$_Initial implements _Initial {
     assert(orElse != null);
     if (initial != null) {
       return initial(solarData, amount, instalment, end, electricityPrice,
-          panelCost, totalEnergy, barChartText, areaChartText);
+          costs, totalEnergy, barChartText, areaChartText);
     }
     return orElse();
   }
@@ -382,7 +381,7 @@ abstract class _Initial implements AnalyzeState {
       DateTime instalment,
       DateTime end,
       double electricityPrice,
-      double panelCost,
+      double costs,
       double totalEnergy,
       String barChartText,
       String areaChartText}) = _$_Initial;
@@ -398,7 +397,7 @@ abstract class _Initial implements AnalyzeState {
   @override
   double get electricityPrice;
   @override
-  double get panelCost;
+  double get costs;
   @override
   double get totalEnergy;
   @override

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:green_energy/analyze/cubit/analyze_cubit.dart';
 import 'package:green_energy/analyze/view/widgets/input_values.dart';
 import 'package:green_energy/analyze/view/widgets/value_displays.dart';
+import 'package:green_energy/common/card_base.dart';
 import 'package:green_energy/common/my_text.dart';
 import 'package:green_energy/common/my_textfield.dart';
 import 'package:green_energy/models/solar_data.dart';
@@ -57,6 +58,10 @@ class Analyze extends StatelessWidget {
         SizedBox(
           height: 8.0,
         ),
+        ListDivider(),
+        SizedBox(
+          height: 8.0,
+        ),
         TotalEnergy(),
         SizedBox(
           height: 8.0,
@@ -70,7 +75,69 @@ class Analyze extends StatelessWidget {
           height: 8.0,
         ),
         MoneySavedChart(),
+        SizedBox(
+          height: 8.0,
+        ),
+        TimeToBreakEven(),
       ],
+    );
+  }
+}
+
+class ListDivider extends StatelessWidget {
+  const ListDivider({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final w = MediaQuery.of(context).size.width;
+    final theme = ThemeProvider.themeOf(context).data;
+    return Divider(
+      color: theme.accentColor.withOpacity(0.3),
+      thickness: 3.0,
+      indent: w * 0.1,
+      endIndent: w * 0.1,
+    );
+  }
+}
+
+class TimeToBreakEven extends StatelessWidget {
+  const TimeToBreakEven({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    final h = size.height;
+    final w = size.width;
+    final theme = ThemeProvider.themeOf(context).data;
+    return CardBase(
+      padding: const EdgeInsets.fromLTRB(8.0, 10, 8.0, 10),
+      child: Column(
+        children: [
+          MyText(
+            "Time to break even",
+            textColor: theme.accentColor,
+            textSize: h * 0.04,
+          ),
+          Divider(
+            color: theme.textTheme.bodyText1.color.withOpacity(0.1),
+            thickness: 2.0,
+            indent: w * 0.1,
+            endIndent: w * 0.1,
+          ),
+          BlocBuilder<AnalyzeCubit, AnalyzeState>(
+            builder: (context, state) {
+              final monthsToBreakEven =
+                  context.read<AnalyzeCubit>().timeToBreakEvenInMonths();
+              final yearsToBreakEven =
+                  roundAndRemoveTrailingZeros(monthsToBreakEven / 12);
+              return MyText(
+                "$yearsToBreakEven years",
+                textSize: h * 0.03,
+              );
+            },
+          )
+        ],
+      ),
     );
   }
 }

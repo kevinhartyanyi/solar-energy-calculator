@@ -56,7 +56,7 @@ class MySwitch extends StatelessWidget {
     final double _textSize = textSize ?? h * 0.03;
     return Container(
       decoration: BoxDecoration(
-        border: Border.all(width: 3.0, color: getColor(theme)),
+        border: Border.all(width: 2.0, color: getColor(theme)),
         color: theme.primaryColor,
         borderRadius: BorderRadius.circular(20),
         boxShadow: [

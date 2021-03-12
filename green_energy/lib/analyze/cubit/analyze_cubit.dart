@@ -17,6 +17,9 @@ part 'analyze_cubit.freezed.dart';
 class AnalyzeCubit extends Cubit<AnalyzeState> {
   AnalyzeCubit(SolarData solarData)
       : super(AnalyzeState.initial(
+            electricityPrice: 0.12,
+            amount: 12,
+            costs: 8000,
             solarData: solarData,
             instalment: DateTime.now().subtract(const Duration(days: 365)),
             end: DateTime.now(),
@@ -52,9 +55,9 @@ class AnalyzeCubit extends Cubit<AnalyzeState> {
     emit(state.copyWith(electricityPrice: price));
   }
 
-  void changePanelCost(double cost) {
+  void changeCosts(double cost) {
     _log.fine("change cost to $cost");
-    emit(state.copyWith(panelCost: cost));
+    emit(state.copyWith(costs: cost));
   }
 
   void changeBarChartText(charts.SelectionModel model) {
@@ -67,7 +70,8 @@ class AnalyzeCubit extends Cubit<AnalyzeState> {
   void changeAreaChartText(charts.SelectionModel model, Locale myLocale) {
     final selected = model.selectedDatum.first.datum as SequenceItem;
     final date = DateFormat.yMd(myLocale.languageCode).format(selected.date);
-    final text = "$date: ${selected.value}";
+    final formattedValue = roundAndRemoveTrailingZeros(selected.value);
+    final text = "$date: $formattedValue";
     _log.fine("change areaChartText to $text");
     emit(state.copyWith(areaChartText: text));
   }
@@ -75,14 +79,16 @@ class AnalyzeCubit extends Cubit<AnalyzeState> {
   List<charts.Series<SequenceItem, DateTime>> getSequenceTimes(
       String id, ThemeData theme) {
     List<SequenceItem> dailyEnergy(DateTime start, double energy, int days,
-        {double baseEnergy = 0, bool countFirst = false}) {
+        {double base = 0, bool countFirst = false}) {
       final List<SequenceItem> re = [];
       final avgDailyEnergy = energy / days;
       double energySum = countFirst ? avgDailyEnergy : 0;
       for (var i = 0; i < days; i++) {
         re.add(
-          SequenceItem(DateTime(start.year, start.month, start.day + i),
-              getMoneySaved(energySum + baseEnergy, state.electricityPrice)),
+          SequenceItem(
+              DateTime(start.year, start.month, start.day + i),
+              getMoneySaved(energySum, state.electricityPrice, state.amount) +
+                  base),
         );
         energySum += avgDailyEnergy;
       }
@@ -116,7 +122,8 @@ class AnalyzeCubit extends Cubit<AnalyzeState> {
 
       // Add energy generated through months
       final startDate = state.instalment;
-      double baseEnergy = energyParts.item1;
+      double base = getMoneySaved(
+          energyParts.item1, state.electricityPrice, state.amount);
       for (var i = 0; i < diffMonths - 1; i++) {
         final month = ((state.instalment.month + i) % 12) + 1;
         final avgMonthly = state.solarData.avgMonthlyEnergy[month - 1];
@@ -124,16 +131,18 @@ class AnalyzeCubit extends Cubit<AnalyzeState> {
         final daysInMonth =
             DateTime(currentDate.year, currentDate.month + 1, 0).day;
         energyData.addAll(dailyEnergy(currentDate, avgMonthly, daysInMonth,
-            baseEnergy: baseEnergy, countFirst: true));
-        baseEnergy = energyData.last.value;
+            base: base, countFirst: true));
+        base = energyData.last.value;
       }
 
       // Add energy generated in last month
       //final avgDailyLastMonth = energyParts.item3 / state.end.day;
       final endBeginMonth = DateTime(state.end.year, state.end.month);
+      print(
+          "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBASE: ${energyData.last.value}");
       energyData.addAll(dailyEnergy(
           endBeginMonth, energyParts.item3, state.end.day,
-          baseEnergy: energyData.last.value, countFirst: true));
+          base: energyData.last.value, countFirst: true));
     }
     for (var item in energyData) {
       print(item);
@@ -144,7 +153,7 @@ class AnalyzeCubit extends Cubit<AnalyzeState> {
     return [
       charts.Series<SequenceItem, DateTime>(
         id: id,
-        colorFn: (_, __) => charts.ColorUtil.fromDartColor(theme.accentColor),
+        colorFn: (_, __) => charts.ColorUtil.fromDartColor(theme.focusColor),
         domainFn: (SequenceItem sumTime, _) => sumTime.date,
         measureFn: (SequenceItem sumTime, _) => sumTime.value,
         data: energyData,
@@ -165,11 +174,32 @@ class AnalyzeCubit extends Cubit<AnalyzeState> {
     return [
       charts.Series<SumItem, String>(
         id: id,
-        colorFn: (_, ind) => charts.ColorUtil.fromDartColor(theme.accentColor),
+        colorFn: (_, ind) => charts.ColorUtil.fromDartColor(theme.focusColor),
         domainFn: (SumItem item, _) => item.name,
         measureFn: (SumItem item, _) => item.amount,
         data: sumItems,
       )
     ];
+  }
+
+  double timeToBreakEvenInMonths() {
+    double months = 0;
+    double costs = state.costs;
+    int index = 0;
+    while (costs > 0) {
+      final currentMonthMoneySaved = getMoneySaved(
+          state.solarData.avgMonthlyEnergy[index],
+          state.electricityPrice,
+          state.amount);
+      if (costs > currentMonthMoneySaved) {
+        costs = costs - currentMonthMoneySaved;
+        months++;
+      } else {
+        months = months + currentMonthMoneySaved / costs;
+        costs = 0;
+      }
+      index = (index + 1) % 11;
+    }
+    return months;
   }
 }

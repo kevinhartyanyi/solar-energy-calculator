@@ -200,6 +200,7 @@ class SubmitButton extends StatelessWidget {
       child: BlocBuilder<CalculatorCubit, CalculatorState>(
         buildWhen: (previous, current) => previous.status != current.status,
         builder: (context, state) {
+          final theme = ThemeProvider.themeOf(context).data;
           return state.status.isSubmissionInProgress
               ? const Center(
                   child: CircularProgressIndicator(),
@@ -209,9 +210,12 @@ class SubmitButton extends StatelessWidget {
                     final cubit = BlocProvider.of<CalculatorCubit>(context);
                     cubit.submit();
                   },
-                  child: const CardBase(
+                  child: CardBase(
                     child: Center(
-                      child: MyText("Calculate"),
+                      child: MyText(
+                        "Calculate",
+                        textColor: theme.accentColor,
+                      ),
                     ),
                   ),
                 );

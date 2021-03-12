@@ -8,7 +8,7 @@ abstract class AnalyzeState with _$AnalyzeState {
     DateTime instalment,
     DateTime end,
     @Default(1) double electricityPrice,
-    @Default(100) double panelCost,
+    @Default(1) double costs,
     double totalEnergy,
     String barChartText,
     String areaChartText,

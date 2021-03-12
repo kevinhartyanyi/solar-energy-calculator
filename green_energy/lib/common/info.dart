@@ -28,6 +28,7 @@ class Info extends StatelessWidget {
           thickness: 3.0,
           indent: w * 0.1,
           endIndent: w * 0.1,
+          color: theme.textTheme.bodyText1.color.withOpacity(0.1),
         ),
         Expanded(
           child: Markdown(

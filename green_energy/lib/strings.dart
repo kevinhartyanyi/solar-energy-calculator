@@ -22,6 +22,8 @@ We have given a default value of **14%** for the overall losses. If you have a g
 const costInfo = """
 This is used for calculating the amount of time that you would need to **break even**.
 
+You should include the **sum of all costs** that you might have including system components (panel modules, mounting, inverters, cables etc.) and installation costs (planning, installation....).
+
 You can use any currency, just keep it consistent with the **electricity price**
 """;
 
@@ -32,5 +34,7 @@ The number of solar panels that you want to calculate with.
 const electricityPriceInfo = """
 This is used for calculating the **money saved** by using the solar panel(s).
 
-You can use any currency, just keep it consistent with the **cost of a single panel**.
+You should input the amount that you would pay for **1 kWh**. (For example, in the US the average price is 12 cents/1 kWh)
+
+You can use any currency, just keep it consistent with the **costs**.
 """;

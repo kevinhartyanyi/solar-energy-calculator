@@ -27,8 +27,8 @@ void main() {
     test('check value', () {
       const double energy = 15;
       const electricityPrice = 0.22;
-      expect(
-          getMoneySaved(energy, electricityPrice), energy * electricityPrice);
+      expect(getMoneySaved(energy, electricityPrice, 1),
+          energy * electricityPrice);
     });
   });
 

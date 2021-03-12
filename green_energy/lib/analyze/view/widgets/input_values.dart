@@ -11,9 +11,9 @@ class Cost extends StatelessWidget {
   Widget build(BuildContext context) {
     final cubit = BlocProvider.of<AnalyzeCubit>(context);
     return DoubleTextField(
-        name: "Cost of a single panel",
-        currentValue: cubit.state.panelCost,
-        onChanged: cubit.changePanelCost,
+        name: "Costs",
+        currentValue: cubit.state.costs,
+        onChanged: cubit.changeCosts,
         prefix: false,
         info: costInfo);
   }
@@ -41,7 +41,7 @@ class Amount extends StatelessWidget {
   Widget build(BuildContext context) {
     final cubit = BlocProvider.of<AnalyzeCubit>(context);
     return IntTextField(
-      name: "Amount",
+      name: "Panel Amount",
       currentValue: cubit.state.amount,
       onChanged: cubit.changeAmount,
       prefix: false,

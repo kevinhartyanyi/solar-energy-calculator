@@ -32,8 +32,8 @@ class MoneySaved extends StatelessWidget {
     return BlocBuilder<AnalyzeCubit, AnalyzeState>(
       builder: (context, state) {
         final h = MediaQuery.of(context).size.height;
-        final moneySaved =
-            getMoneySaved(state.totalEnergy, state.electricityPrice);
+        final moneySaved = getMoneySaved(
+            state.totalEnergy, state.electricityPrice, state.amount);
         return DisplayValue(
           height: h * 0.08,
           name: "Money saved",

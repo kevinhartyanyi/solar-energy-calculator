@@ -130,8 +130,8 @@ double getTotalEnergyProduced(SolarData solarData, DateTime instalment,
   return parts.item1 + parts.item2 + parts.item3;
 }
 
-double getMoneySaved(double energy, double electricityPrice) {
-  return energy * electricityPrice;
+double getMoneySaved(double energy, double electricityPrice, int panels) {
+  return energy * electricityPrice * panels;
 }
 
 double getCO2Reduction(double energy) {
