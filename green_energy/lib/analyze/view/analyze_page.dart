@@ -18,9 +18,10 @@ class AnalyzePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = ThemeProvider.themeOf(context).data;
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Color(0xffFBF8F3),
+        backgroundColor: theme.backgroundColor,
         body: Material(
           child: BlocProvider(
             create: (context) => AnalyzeCubit(solarData),
@@ -68,6 +69,7 @@ class Analyze extends StatelessWidget {
         SizedBox(
           height: 8.0,
         ),
+        MoneySavedChart(),
       ],
     );
   }
@@ -102,9 +104,12 @@ class EndDate extends StatelessWidget {
     final h = MediaQuery.of(context).size.height;
     return InkWell(
       onTap: () {
+        final cubit = context.read<AnalyzeCubit>();
         datePicker(
             context: context,
-            onPicked: context.read<AnalyzeCubit>().changeEndDate,
+            onPicked: cubit.changeEndDate,
+            firstDate: cubit.state.instalment,
+            initialDate: cubit.state.end,
             isLightTheme: true);
       },
       child: BlocBuilder<AnalyzeCubit, AnalyzeState>(
@@ -136,6 +141,7 @@ class InstalmentDate extends StatelessWidget {
             context: context,
             onPicked: cubit.changeInstalment,
             lastDate: cubit.state.end,
+            initialDate: cubit.state.instalment,
             isLightTheme: true);
       },
       child: BlocBuilder<AnalyzeCubit, AnalyzeState>(
@@ -241,6 +247,110 @@ class AvgMonthlyEnergyChart extends StatelessWidget {
   }
 }
 
+class MoneySavedChart extends StatelessWidget {
+  const MoneySavedChart({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final h = MediaQuery.of(context).size.height;
+
+    return BlocBuilder<AnalyzeCubit, AnalyzeState>(
+      buildWhen: (previous, current) =>
+          previous.areaChartText != current.areaChartText,
+      builder: (context, state) {
+        return SizedBox(
+          height: h * 0.5,
+          child: Chart(
+            chart: const LineAreaChart(),
+            bottomText: state.areaChartText,
+          ),
+        );
+      },
+    );
+  }
+}
+
+class LineAreaChart extends StatelessWidget {
+  const LineAreaChart({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<AnalyzeCubit, AnalyzeState>(
+        buildWhen: (previous, current) =>
+            previous.solarData != current.solarData ||
+            previous.electricityPrice != current.electricityPrice ||
+            previous.instalment != current.instalment ||
+            previous.end != current.end,
+        builder: (context, state) {
+          final h = MediaQuery.of(context).size.height;
+          final cubit = BlocProvider.of<AnalyzeCubit>(context);
+          final theme = ThemeProvider.themeOf(context).data;
+          final seriesList = cubit.getSequenceTimes("LineAreaChart", theme);
+          final Locale myLocale = Localizations.localeOf(context);
+          final textColor =
+              charts.ColorUtil.fromDartColor(theme.textTheme.bodyText1.color);
+          final lineColor = charts.ColorUtil.fromDartColor(
+              theme.textTheme.bodyText1.color.withOpacity(0.3));
+          final viewPortStart = DateTime(state.instalment.year,
+              state.instalment.month, state.instalment.day);
+          final viewPortEnd =
+              DateTime(state.end.year, state.end.month, state.end.day);
+          print("Viewport start: ${viewPortStart}, ${viewPortEnd}");
+          return charts.TimeSeriesChart(
+            seriesList,
+            defaultRenderer:
+                charts.LineRendererConfig(includeArea: true, stacked: true),
+            animate: true,
+            domainAxis: charts.DateTimeAxisSpec(
+              viewport: charts.DateTimeExtents(
+                  start: viewPortStart, end: viewPortEnd),
+              renderSpec: charts.SmallTickRendererSpec(
+                // Tick and Label styling here.
+                labelStyle: charts.TextStyleSpec(
+                    fontSize: (h * 0.016).toInt(), // size in Pts.
+                    color: textColor),
+                // Change the line colors to match text color.
+                lineStyle: charts.LineStyleSpec(color: textColor),
+              ),
+            ),
+
+            /// Assign a custom style for the measure axis.
+            primaryMeasureAxis: charts.NumericAxisSpec(
+              renderSpec: charts.GridlineRendererSpec(
+                // Tick and Label styling here.
+                labelStyle: charts.TextStyleSpec(
+                    fontSize: (h * 0.016).toInt(), // size in Pts.
+                    color: textColor),
+
+                // Change the line colors to match text color.
+                lineStyle: charts.LineStyleSpec(color: lineColor),
+              ),
+            ),
+            behaviors: [
+              charts.ChartTitle(
+                "Estimated Money Saved",
+                titleStyleSpec: charts.TextStyleSpec(
+                    fontSize: (h * 0.02).toInt(), // size in Pts.
+                    color: textColor),
+                behaviorPosition: charts.BehaviorPosition.top,
+                titleOutsideJustification:
+                    charts.OutsideJustification.middleDrawArea,
+              ),
+              charts.PanAndZoomBehavior(),
+            ],
+            selectionModels: [
+              charts.SelectionModelConfig(
+                // type: charts.SelectionModelType.info,
+                changedListener: (final model) {
+                  cubit.changeAreaChartText(model, myLocale);
+                },
+              )
+            ],
+          );
+        });
+  }
+}
+
 class BarChart extends StatelessWidget {
   const BarChart({Key key}) : super(key: key);
 
@@ -257,6 +367,8 @@ class BarChart extends StatelessWidget {
           final textColor =
               charts.ColorUtil.fromDartColor(theme.textTheme.bodyText1.color);
           final h = MediaQuery.of(context).size.height;
+          final lineColor = charts.ColorUtil.fromDartColor(
+              theme.textTheme.bodyText1.color.withOpacity(0.3));
           return charts.BarChart(
             seriesList,
             animate: true,
@@ -264,7 +376,7 @@ class BarChart extends StatelessWidget {
               charts.ChartTitle(
                 "Average Monthly Energy Output (kWh)",
                 titleStyleSpec: charts.TextStyleSpec(
-                    fontSize: (h * 0.018).toInt(), // size in Pts.
+                    fontSize: (h * 0.02).toInt(), // size in Pts.
                     color: textColor),
                 behaviorPosition: charts.BehaviorPosition.top,
                 titleOutsideJustification:
@@ -282,7 +394,7 @@ class BarChart extends StatelessWidget {
                     color: textColor),
 
                 // Change the line colors to match text color.
-                lineStyle: charts.LineStyleSpec(color: textColor),
+                lineStyle: charts.LineStyleSpec(color: lineColor),
               ),
             ),
 
@@ -295,7 +407,7 @@ class BarChart extends StatelessWidget {
                     color: textColor),
 
                 // Change the line colors to match text color.
-                lineStyle: charts.LineStyleSpec(color: textColor),
+                lineStyle: charts.LineStyleSpec(color: lineColor),
               ),
             ),
             selectionModels: [

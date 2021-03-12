@@ -5,6 +5,7 @@ import 'package:green_energy/constans.dart';
 import 'package:green_energy/models/solar_data.dart';
 import 'package:intl/intl.dart';
 import 'package:jiffy/jiffy.dart';
+import 'package:tuple/tuple.dart';
 
 Uri urlBuilder({
   @required double lat,
@@ -69,7 +70,8 @@ Future<void> datePicker(
   }
 }
 
-double getTotalEnergyProduced(SolarData solarData, DateTime instalment,
+Tuple3<double, double, double> getTotalEnergyProducedParts(
+    SolarData solarData, DateTime instalment,
     [DateTime endDate]) {
   final end = endDate ?? DateTime.now();
 
@@ -98,7 +100,7 @@ double getTotalEnergyProduced(SolarData solarData, DateTime instalment,
   if (instalment.year == end.year && instalment.month == end.month) {
     // Same month case
     final days = end.day - instalment.day;
-    return getAvgDailyEnergyForMonth(instalment.month) * days;
+    return Tuple3(getAvgDailyEnergyForMonth(instalment.month) * days, 0, 0);
   }
 
   final lastdayFromStartMonth =
@@ -119,7 +121,13 @@ double getTotalEnergyProduced(SolarData solarData, DateTime instalment,
   print("start month: $energyFromStartMonth");
   print("current month: $energyFromCurrentMonth");
   print("energy for months: $energyFromMonths");
-  return energyFromStartMonth + energyFromCurrentMonth + energyFromMonths;
+  return Tuple3(energyFromStartMonth, energyFromMonths, energyFromCurrentMonth);
+}
+
+double getTotalEnergyProduced(SolarData solarData, DateTime instalment,
+    [DateTime endDate]) {
+  final parts = getTotalEnergyProducedParts(solarData, instalment, endDate);
+  return parts.item1 + parts.item2 + parts.item3;
 }
 
 double getMoneySaved(double energy, double electricityPrice) {
