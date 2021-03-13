@@ -8,6 +8,7 @@ ThemeData myLightTheme = AppTheme.light().data.copyWith(
       accentColor: const Color(0xff81B622), //Colors.yellow,
       focusColor: const Color(0xffECF87F),
       shadowColor: Colors.black.withOpacity(0.1),
+      errorColor: Colors.red.shade400,
       textTheme: TextTheme(
         bodyText1: GoogleFonts.quicksand().copyWith(color: Colors.black),
       ),

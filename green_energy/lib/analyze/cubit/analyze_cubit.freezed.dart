@@ -23,7 +23,8 @@ class _$AnalyzeStateTearOff {
       double costs = 1,
       double totalEnergy,
       String barChartText,
-      String areaChartText}) {
+      String areaChartText,
+      String name}) {
     return _Initial(
       solarData: solarData,
       amount: amount,
@@ -34,6 +35,7 @@ class _$AnalyzeStateTearOff {
       totalEnergy: totalEnergy,
       barChartText: barChartText,
       areaChartText: areaChartText,
+      name: name,
     );
   }
 }
@@ -53,6 +55,7 @@ mixin _$AnalyzeState {
   double get totalEnergy;
   String get barChartText;
   String get areaChartText;
+  String get name;
 
   @optionalTypeArgs
   TResult when<TResult extends Object>({
@@ -66,7 +69,8 @@ mixin _$AnalyzeState {
             double costs,
             double totalEnergy,
             String barChartText,
-            String areaChartText),
+            String areaChartText,
+            String name),
   });
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object>({
@@ -79,7 +83,8 @@ mixin _$AnalyzeState {
         double costs,
         double totalEnergy,
         String barChartText,
-        String areaChartText),
+        String areaChartText,
+        String name),
     @required TResult orElse(),
   });
   @optionalTypeArgs
@@ -110,7 +115,8 @@ abstract class $AnalyzeStateCopyWith<$Res> {
       double costs,
       double totalEnergy,
       String barChartText,
-      String areaChartText});
+      String areaChartText,
+      String name});
 }
 
 /// @nodoc
@@ -132,6 +138,7 @@ class _$AnalyzeStateCopyWithImpl<$Res> implements $AnalyzeStateCopyWith<$Res> {
     Object totalEnergy = freezed,
     Object barChartText = freezed,
     Object areaChartText = freezed,
+    Object name = freezed,
   }) {
     return _then(_value.copyWith(
       solarData:
@@ -152,6 +159,7 @@ class _$AnalyzeStateCopyWithImpl<$Res> implements $AnalyzeStateCopyWith<$Res> {
       areaChartText: areaChartText == freezed
           ? _value.areaChartText
           : areaChartText as String,
+      name: name == freezed ? _value.name : name as String,
     ));
   }
 }
@@ -170,7 +178,8 @@ abstract class _$InitialCopyWith<$Res> implements $AnalyzeStateCopyWith<$Res> {
       double costs,
       double totalEnergy,
       String barChartText,
-      String areaChartText});
+      String areaChartText,
+      String name});
 }
 
 /// @nodoc
@@ -193,6 +202,7 @@ class __$InitialCopyWithImpl<$Res> extends _$AnalyzeStateCopyWithImpl<$Res>
     Object totalEnergy = freezed,
     Object barChartText = freezed,
     Object areaChartText = freezed,
+    Object name = freezed,
   }) {
     return _then(_Initial(
       solarData:
@@ -213,6 +223,7 @@ class __$InitialCopyWithImpl<$Res> extends _$AnalyzeStateCopyWithImpl<$Res>
       areaChartText: areaChartText == freezed
           ? _value.areaChartText
           : areaChartText as String,
+      name: name == freezed ? _value.name : name as String,
     ));
   }
 }
@@ -228,7 +239,8 @@ class _$_Initial implements _Initial {
       this.costs = 1,
       this.totalEnergy,
       this.barChartText,
-      this.areaChartText})
+      this.areaChartText,
+      this.name})
       : assert(amount != null),
         assert(electricityPrice != null),
         assert(costs != null);
@@ -254,10 +266,12 @@ class _$_Initial implements _Initial {
   final String barChartText;
   @override
   final String areaChartText;
+  @override
+  final String name;
 
   @override
   String toString() {
-    return 'AnalyzeState.initial(solarData: $solarData, amount: $amount, instalment: $instalment, end: $end, electricityPrice: $electricityPrice, costs: $costs, totalEnergy: $totalEnergy, barChartText: $barChartText, areaChartText: $areaChartText)';
+    return 'AnalyzeState.initial(solarData: $solarData, amount: $amount, instalment: $instalment, end: $end, electricityPrice: $electricityPrice, costs: $costs, totalEnergy: $totalEnergy, barChartText: $barChartText, areaChartText: $areaChartText, name: $name)';
   }
 
   @override
@@ -287,7 +301,9 @@ class _$_Initial implements _Initial {
                     .equals(other.barChartText, barChartText)) &&
             (identical(other.areaChartText, areaChartText) ||
                 const DeepCollectionEquality()
-                    .equals(other.areaChartText, areaChartText)));
+                    .equals(other.areaChartText, areaChartText)) &&
+            (identical(other.name, name) ||
+                const DeepCollectionEquality().equals(other.name, name)));
   }
 
   @override
@@ -301,7 +317,8 @@ class _$_Initial implements _Initial {
       const DeepCollectionEquality().hash(costs) ^
       const DeepCollectionEquality().hash(totalEnergy) ^
       const DeepCollectionEquality().hash(barChartText) ^
-      const DeepCollectionEquality().hash(areaChartText);
+      const DeepCollectionEquality().hash(areaChartText) ^
+      const DeepCollectionEquality().hash(name);
 
   @JsonKey(ignore: true)
   @override
@@ -321,11 +338,12 @@ class _$_Initial implements _Initial {
             double costs,
             double totalEnergy,
             String barChartText,
-            String areaChartText),
+            String areaChartText,
+            String name),
   }) {
     assert(initial != null);
     return initial(solarData, amount, instalment, end, electricityPrice, costs,
-        totalEnergy, barChartText, areaChartText);
+        totalEnergy, barChartText, areaChartText, name);
   }
 
   @override
@@ -340,13 +358,14 @@ class _$_Initial implements _Initial {
         double costs,
         double totalEnergy,
         String barChartText,
-        String areaChartText),
+        String areaChartText,
+        String name),
     @required TResult orElse(),
   }) {
     assert(orElse != null);
     if (initial != null) {
       return initial(solarData, amount, instalment, end, electricityPrice,
-          costs, totalEnergy, barChartText, areaChartText);
+          costs, totalEnergy, barChartText, areaChartText, name);
     }
     return orElse();
   }
@@ -384,7 +403,8 @@ abstract class _Initial implements AnalyzeState {
       double costs,
       double totalEnergy,
       String barChartText,
-      String areaChartText}) = _$_Initial;
+      String areaChartText,
+      String name}) = _$_Initial;
 
   @override
   SolarData get solarData;
@@ -404,6 +424,8 @@ abstract class _Initial implements AnalyzeState {
   String get barChartText;
   @override
   String get areaChartText;
+  @override
+  String get name;
   @override
   @JsonKey(ignore: true)
   _$InitialCopyWith<_Initial> get copyWith;

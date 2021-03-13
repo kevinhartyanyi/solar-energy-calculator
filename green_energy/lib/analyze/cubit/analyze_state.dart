@@ -12,5 +12,6 @@ abstract class AnalyzeState with _$AnalyzeState {
     double totalEnergy,
     String barChartText,
     String areaChartText,
+    String name,
   }) = _Initial;
 }

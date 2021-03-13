@@ -1,5 +1,7 @@
 const co2PerKwh = 0.417305;
 
+const calculationsBox = "calculations";
+
 const months = [
   DateTime.january,
   DateTime.february,

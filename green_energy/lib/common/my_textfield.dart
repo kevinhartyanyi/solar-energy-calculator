@@ -112,6 +112,52 @@ class DoubleTextField extends StatelessWidget {
   }
 }
 
+class StringTextField extends StatelessWidget {
+  const StringTextField(
+      {Key key,
+      @required this.onChanged,
+      @required this.currentValue,
+      @required this.name,
+      this.prefix = true,
+      this.height,
+      this.width,
+      this.info,
+      this.suffix})
+      : super(key: key);
+
+  final Function(String) onChanged;
+  final String currentValue;
+  final String name;
+  final bool prefix;
+  final double height;
+  final double width;
+  final String info;
+  final String suffix;
+
+  void onTextChange(String text) {
+    onChanged(text);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final TextEditingController controller = TextEditingController();
+    controller.text = currentValue;
+    controller.selection = TextSelection.fromPosition(
+        TextPosition(offset: controller.text.length));
+    return MyTextField(
+      name: name,
+      onChanged: onTextChange,
+      controller: controller,
+      keyboardType: TextInputType.text,
+      prefix: prefix,
+      height: height,
+      width: width,
+      info: info,
+      suffix: suffix,
+    );
+  }
+}
+
 class MyTextField extends StatelessWidget {
   const MyTextField({
     Key key,

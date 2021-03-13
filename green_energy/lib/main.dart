@@ -1,9 +1,12 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:green_energy/bloc_observer.dart';
+import 'package:green_energy/constans.dart';
+import 'package:green_energy/models/calculation_box.dart';
+import 'package:green_energy/models/solar_data.dart';
 import 'package:green_energy/navigation/navigation_cubit.dart';
 import 'package:green_energy/themes.dart';
+import 'package:hive/hive.dart';
 import 'package:logging/logging.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -11,6 +14,7 @@ import 'package:green_energy/router/my_router.dart';
 import 'package:logger/logger.dart' as debug;
 import 'package:theme_provider/theme_provider.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:path_provider/path_provider.dart' as path_provider;
 
 const bool kReleaseMode = false;
 void main() {
@@ -57,28 +61,45 @@ void main() {
       MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   static final _log = Logger("MyApp");
+
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
+  void initState() {
+    super.initState();
+    futures = Future.wait([initIntl, initHive()]);
+  }
+
+  Future futures;
 
   final initIntl = initializeDateFormatting('en_US');
 
-  // final Future<void> setPortrait = SystemChrome.setPreferredOrientations([
-  //   DeviceOrientation.portraitUp,
-  //   DeviceOrientation.portraitDown,
-  // ]);
+  Future<void> initHive() async {
+    final appDir = await path_provider.getApplicationDocumentsDirectory();
+    Hive.init(appDir.path);
+    Hive.openBox(calculationsBox);
+    Hive.registerAdapter(CalculationBoxAdapter());
+    Hive.registerAdapter(SolarDataAdapter());
+  }
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: Future.wait([initIntl]), //setPortrait,
+        future: futures, //setPortrait,
         builder: (context, snapshot) {
           if (snapshot.hasError) {
-            _log.severe("Error: ${snapshot.error.toString()}");
-            return const Directionality(
-                textDirection: TextDirection.ltr, child: Text("Error!"));
+            final error = snapshot.error.toString();
+            MyApp._log.severe("Error: $error");
+            return Directionality(
+                textDirection: TextDirection.ltr, child: Text("Error: $error"));
           } else if (snapshot.hasData) {
-            _log.finest("Init complete");
-            return MyAppCore();
+            MyApp._log.finest("Init complete");
+            return const MyAppCore();
           }
           return SplashPage();
         });

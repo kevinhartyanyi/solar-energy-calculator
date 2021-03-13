@@ -5,6 +5,7 @@ import 'package:formz/formz.dart';
 import 'package:green_energy/calculator/view/widgets/coordinates.dart';
 import 'package:green_energy/calculator/view/widgets/geo_map.dart';
 import 'package:green_energy/common/card_base.dart';
+import 'package:green_energy/common/card_base_button.dart';
 import 'package:green_energy/common/my_column.dart';
 import 'package:green_energy/common/my_switch.dart';
 import 'package:green_energy/common/my_text.dart';
@@ -193,6 +194,10 @@ class SystemLossInput extends StatelessWidget {
 class SubmitButton extends StatelessWidget {
   const SubmitButton({Key key}) : super(key: key);
 
+  void onTap(BuildContext context) {
+    BlocProvider.of<CalculatorCubit>(context).submit();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -200,25 +205,12 @@ class SubmitButton extends StatelessWidget {
       child: BlocBuilder<CalculatorCubit, CalculatorState>(
         buildWhen: (previous, current) => previous.status != current.status,
         builder: (context, state) {
-          final theme = ThemeProvider.themeOf(context).data;
-          return state.status.isSubmissionInProgress
-              ? const Center(
-                  child: CircularProgressIndicator(),
-                )
-              : InkWell(
-                  onTap: () {
-                    final cubit = BlocProvider.of<CalculatorCubit>(context);
-                    cubit.submit();
-                  },
-                  child: CardBase(
-                    child: Center(
-                      child: MyText(
-                        "Calculate",
-                        textColor: theme.accentColor,
-                      ),
-                    ),
-                  ),
-                );
+          return CardBaseButton(
+            text: "Calculate",
+            bold: true,
+            isSubmissionInProgress: state.status.isSubmissionInProgress,
+            onTap: () => onTap(context),
+          );
         },
       ),
     );

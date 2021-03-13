@@ -5,15 +5,16 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:theme_provider/theme_provider.dart';
 
 class CardBase extends StatelessWidget {
-  const CardBase(
-      {Key key,
-      @required this.child,
-      this.padding,
-      this.height,
-      this.width,
-      this.info,
-      this.infoName})
-      : assert(info == null || (info != null && infoName != null)),
+  const CardBase({
+    Key key,
+    @required this.child,
+    this.padding,
+    this.height,
+    this.width,
+    this.info,
+    this.infoName,
+    this.background,
+  })  : assert(info == null || (info != null && infoName != null)),
         super(key: key);
 
   final Widget child;
@@ -22,6 +23,7 @@ class CardBase extends StatelessWidget {
   final double width;
   final String info;
   final String infoName;
+  final Color background;
 
   void showInfo(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -47,7 +49,7 @@ class CardBase extends StatelessWidget {
         padding: padding ?? const EdgeInsets.fromLTRB(10, 2, 10, 2),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),
-          color: theme.primaryColor,
+          color: background ?? theme.primaryColor,
           boxShadow: [
             BoxShadow(
               offset: const Offset(0, 1),

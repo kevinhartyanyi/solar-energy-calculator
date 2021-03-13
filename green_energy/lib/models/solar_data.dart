@@ -1,21 +1,30 @@
 import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
+import 'package:hive/hive.dart';
+part 'solar_data.g.dart';
 
+@HiveType(typeId: 1)
 class SolarData extends Equatable {
+  @HiveField(0)
   final double latitude;
+  @HiveField(1)
   final double longitude;
+  @HiveField(2)
   final double elevation;
 
   //final String mounting;
-
+  @HiveField(3)
   final double peakpower;
+  @HiveField(4)
   final double systemLoss;
+  @HiveField(5)
   final String technology;
 
+  @HiveField(6)
   final List<double> avgMonthlyEnergy;
 
-  SolarData(
+  const SolarData(
       {this.latitude,
       this.longitude,
       this.elevation,

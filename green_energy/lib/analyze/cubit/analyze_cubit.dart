@@ -17,6 +17,7 @@ part 'analyze_cubit.freezed.dart';
 class AnalyzeCubit extends Cubit<AnalyzeState> {
   AnalyzeCubit(SolarData solarData)
       : super(AnalyzeState.initial(
+            name: "My calculation",
             electricityPrice: 0.12,
             amount: 12,
             costs: 8000,
@@ -33,6 +34,11 @@ class AnalyzeCubit extends Cubit<AnalyzeState> {
   void changeAmount(int amount) {
     _log.fine("change amount to $amount");
     emit(state.copyWith(amount: amount));
+  }
+
+  void changeName(String name) {
+    _log.fine("change name to $name");
+    emit(state.copyWith(name: name));
   }
 
   void changeInstalment(DateTime instalment) {
@@ -138,14 +144,9 @@ class AnalyzeCubit extends Cubit<AnalyzeState> {
       // Add energy generated in last month
       //final avgDailyLastMonth = energyParts.item3 / state.end.day;
       final endBeginMonth = DateTime(state.end.year, state.end.month);
-      print(
-          "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBASE: ${energyData.last.value}");
       energyData.addAll(dailyEnergy(
           endBeginMonth, energyParts.item3, state.end.day,
           base: energyData.last.value, countFirst: true));
-    }
-    for (var item in energyData) {
-      print(item);
     }
 
     _log.finest("getSequenceTimes");
