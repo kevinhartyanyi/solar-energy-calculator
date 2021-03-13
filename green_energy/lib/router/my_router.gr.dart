@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import '../analyze/view/analyze_page.dart';
 import '../calculator/view/calculator_page.dart';
 import '../home/view/home_page.dart';
+import '../manage/manage_page.dart';
 import '../models/solar_data.dart';
 import '../root/view/root_page.dart';
 
@@ -20,11 +21,13 @@ class Routes {
   static const String homePage = '/home-page';
   static const String calculatorPage = '/calculator-page';
   static const String analyzePage = '/analyze-page';
+  static const String managePage = '/manage-page';
   static const all = <String>{
     rootPage,
     homePage,
     calculatorPage,
     analyzePage,
+    managePage,
   };
 }
 
@@ -36,6 +39,7 @@ class MyRouter extends RouterBase {
     RouteDef(Routes.homePage, page: HomePage),
     RouteDef(Routes.calculatorPage, page: CalculatorPage),
     RouteDef(Routes.analyzePage, page: AnalyzePage),
+    RouteDef(Routes.managePage, page: ManagePage),
   ];
   @override
   Map<Type, AutoRouteFactory> get pagesMap => _pagesMap;
@@ -68,6 +72,12 @@ class MyRouter extends RouterBase {
         settings: data,
       );
     },
+    ManagePage: (data) {
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => const ManagePage(),
+        settings: data,
+      );
+    },
   };
 }
 
@@ -90,6 +100,8 @@ extension MyRouterExtendedNavigatorStateX on ExtendedNavigatorState {
         Routes.analyzePage,
         arguments: AnalyzePageArguments(key: key, solarData: solarData),
       );
+
+  Future<dynamic> pushManagePage() => push<dynamic>(Routes.managePage);
 }
 
 /// ************************************************************************

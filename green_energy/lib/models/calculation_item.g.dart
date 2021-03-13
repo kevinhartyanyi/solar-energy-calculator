@@ -1,22 +1,22 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'calculation_box.dart';
+part of 'calculation_item.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class CalculationBoxAdapter extends TypeAdapter<CalculationBox> {
+class CalculationItemAdapter extends TypeAdapter<CalculationItem> {
   @override
   final int typeId = 0;
 
   @override
-  CalculationBox read(BinaryReader reader) {
+  CalculationItem read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return CalculationBox(
+    return CalculationItem(
       fields[0] as SolarData,
       fields[1] as int,
       fields[2] as DateTime,
@@ -28,7 +28,7 @@ class CalculationBoxAdapter extends TypeAdapter<CalculationBox> {
   }
 
   @override
-  void write(BinaryWriter writer, CalculationBox obj) {
+  void write(BinaryWriter writer, CalculationItem obj) {
     writer
       ..writeByte(7)
       ..writeByte(0)
@@ -53,7 +53,7 @@ class CalculationBoxAdapter extends TypeAdapter<CalculationBox> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is CalculationBoxAdapter &&
+      other is CalculationItemAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

@@ -4,7 +4,7 @@ import 'package:titled_navigation_bar/titled_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:green_energy/router/my_router.dart';
 
-enum NavTab { home, calculator }
+enum NavTab { home, calculator, manage }
 
 class NavigationCubit extends Cubit<NavTab> {
   NavigationCubit() : super(NavTab.home);
@@ -17,11 +17,15 @@ class NavigationCubit extends Cubit<NavTab> {
   }
 
   List<TitledNavigationBarItem> getBottomNavigationItems() {
-    final List<TitledNavigationBarItem> re = List(tabs.length);
+    final List<TitledNavigationBarItem> re = [];
     for (var i = 0; i < tabs.length; i++) {
       final tab = tabs[NavTab.values[i]];
-      re[i] = TitledNavigationBarItem(
-          title: Text(tab.name), icon: tab.icon, backgroundColor: Colors.white);
+      re.add(
+        TitledNavigationBarItem(
+            title: Text(tab.name),
+            icon: tab.icon,
+            backgroundColor: Colors.white),
+      );
     }
     return re;
   }
@@ -36,6 +40,11 @@ class NavigationCubit extends Cubit<NavTab> {
       name: "Calculator",
       icon: Icons.ac_unit,
       initialRoute: Routes.calculatorPage,
+    ),
+    NavTab.manage: NavigationTab(
+      name: "Saved",
+      icon: Icons.ac_unit,
+      initialRoute: Routes.managePage,
     ),
   };
 }

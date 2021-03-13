@@ -2,10 +2,10 @@ import 'package:green_energy/analyze/cubit/analyze_cubit.dart';
 import 'package:green_energy/models/solar_data.dart';
 import 'package:hive/hive.dart';
 
-part 'calculation_box.g.dart';
+part 'calculation_item.g.dart';
 
 @HiveType(typeId: 0)
-class CalculationBox extends HiveObject {
+class CalculationItem extends HiveObject {
   @HiveField(0)
   final SolarData solarData;
   @HiveField(1)
@@ -21,11 +21,11 @@ class CalculationBox extends HiveObject {
   @HiveField(6)
   final String name;
 
-  CalculationBox(this.solarData, this.solarPanelAmount, this.instalment,
+  CalculationItem(this.solarData, this.solarPanelAmount, this.instalment,
       this.end, this.electricityPrice, this.costs, this.name);
 
-  factory CalculationBox.fromAnalyzeState(AnalyzeState state) {
-    return CalculationBox(state.solarData, state.amount, state.instalment,
+  factory CalculationItem.fromAnalyzeState(AnalyzeState state) {
+    return CalculationItem(state.solarData, state.amount, state.instalment,
         state.end, state.electricityPrice, state.costs, state.name);
   }
 }

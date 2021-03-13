@@ -5,18 +5,16 @@ import 'package:green_energy/analyze/view/widgets/average_monthly_energy_chart.d
 import 'package:green_energy/analyze/view/widgets/input_values.dart';
 import 'package:green_energy/analyze/view/widgets/money_saved_chart.dart';
 import 'package:green_energy/analyze/view/widgets/value_displays.dart';
-import 'package:green_energy/models/calculation_box.dart';
 import 'package:green_energy/common/card_base.dart';
 import 'package:green_energy/common/card_base_button.dart';
 import 'package:green_energy/common/my_dialog.dart';
 import 'package:green_energy/common/my_text.dart';
 import 'package:green_energy/common/my_textfield.dart';
-import 'package:green_energy/constans.dart';
 import 'package:green_energy/models/solar_data.dart';
 import 'package:green_energy/utils.dart';
-import 'package:hive/hive.dart';
 import 'package:theme_provider/theme_provider.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:green_energy/router/my_router.dart';
 
 class AnalyzePage extends StatelessWidget {
   const AnalyzePage({Key key, @required this.solarData}) : super(key: key);
@@ -110,9 +108,8 @@ class SaveButton extends StatelessWidget {
 
   void onSave(String name, BuildContext context) {
     final cubit = context.read<AnalyzeCubit>();
-    cubit.changeName(name);
-    final newCalculation = CalculationBox.fromAnalyzeState(cubit.state);
-    Hive.box(calculationsBox).add(newCalculation);
+    cubit.saveCalculation(name);
+    //context.navigator.
   }
 
   @override
@@ -167,6 +164,16 @@ class _ChooseNameState extends State<ChooseName> {
     }
   }
 
+  void onSubmitSave() {
+    if (name.isEmpty) {
+      return;
+    }
+    widget.onSave(name);
+    //context.navigator.pop();
+    context.navigator.popUntilRoot();
+    //context.navigator.pushAndRemoveUntil(Routes.managePage, (route) => false);
+  }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -196,11 +203,7 @@ class _ChooseNameState extends State<ChooseName> {
           displayErrorMessage(theme),
           CardBaseButton(
             onTap: () {
-              if (name.isEmpty) {
-                return;
-              }
-              widget.onSave(name);
-              context.navigator.pop();
+              onSubmitSave();
             },
             text: "Save",
             bold: true,

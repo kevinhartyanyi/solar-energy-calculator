@@ -2,10 +2,12 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:green_energy/constans.dart';
+import 'package:green_energy/models/calculation_item.dart';
 import 'package:green_energy/models/sequence_item.dart';
 import 'package:green_energy/models/solar_data.dart';
 import 'package:green_energy/models/sum_item.dart';
 import 'package:green_energy/utils.dart';
+import 'package:hive/hive.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:logging/logging.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
@@ -27,9 +29,20 @@ class AnalyzeCubit extends Cubit<AnalyzeState> {
             totalEnergy: getTotalEnergyProduced(
                 solarData,
                 DateTime.now().subtract(const Duration(days: 365)),
-                DateTime.now())));
+                DateTime.now()))) {
+    box = Hive.box(calculationsBox);
+  }
 
   static final _log = Logger("AnalyzeCubit");
+
+  Box<CalculationItem> box;
+
+  Future<void> saveCalculation(String name) async {
+    final newState = state.copyWith(name: name);
+    final newCalculation = CalculationItem.fromAnalyzeState(newState);
+    await box.add(newCalculation);
+    emit(newState);
+  }
 
   void changeAmount(int amount) {
     _log.fine("change amount to $amount");

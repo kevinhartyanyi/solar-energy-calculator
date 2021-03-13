@@ -2,7 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:green_energy/bloc_observer.dart';
 import 'package:green_energy/constans.dart';
-import 'package:green_energy/models/calculation_box.dart';
+import 'package:green_energy/models/calculation_item.dart';
 import 'package:green_energy/models/solar_data.dart';
 import 'package:green_energy/navigation/navigation_cubit.dart';
 import 'package:green_energy/themes.dart';
@@ -82,9 +82,9 @@ class _MyAppState extends State<MyApp> {
   Future<void> initHive() async {
     final appDir = await path_provider.getApplicationDocumentsDirectory();
     Hive.init(appDir.path);
-    Hive.openBox(calculationsBox);
-    Hive.registerAdapter(CalculationBoxAdapter());
+    Hive.registerAdapter(CalculationItemAdapter());
     Hive.registerAdapter(SolarDataAdapter());
+    await Hive.openBox<CalculationItem>(calculationsBox);
   }
 
   @override
