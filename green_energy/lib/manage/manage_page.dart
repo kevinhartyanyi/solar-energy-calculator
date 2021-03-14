@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:green_energy/common/my_column.dart';
+import 'package:green_energy/common/my_alert_dialog.dart';
 import 'package:green_energy/common/my_text.dart';
 import 'package:green_energy/manage/cubit/manage_cubit.dart';
 import 'package:green_energy/models/calculation_item.dart';
 import 'package:theme_provider/theme_provider.dart';
+import 'package:green_energy/router/my_router.dart';
+import 'package:auto_route/auto_route.dart';
+import 'package:green_energy/utils.dart';
 
 class ManagePage extends StatelessWidget {
   const ManagePage({Key key}) : super(key: key);
@@ -43,8 +46,7 @@ class Manage extends StatelessWidget {
               itemBuilder: (context, index) {
                 final item = state[index];
                 return ManageItem(
-                  name: item.name,
-                  onDelete: () => item.delete(),
+                  item: item,
                 );
               },
               separatorBuilder: (context, index) {
@@ -63,25 +65,48 @@ class Manage extends StatelessWidget {
 }
 
 class ManageItem extends StatelessWidget {
-  const ManageItem({Key key, @required this.name, @required this.onDelete})
-      : super(key: key);
+  const ManageItem({
+    Key key,
+    @required this.item,
+  }) : super(key: key);
 
-  final String name;
-  final VoidCallback onDelete;
+  final CalculationItem item;
+
+  void onDeleteTap(BuildContext context) {
+    final theme = ThemeProvider.themeOf(context).data;
+    const String description = "Are you sure? you can't undo this?";
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return MyAlertDialog(
+          backgroundColor: theme.primaryColor,
+          confirmText: "Confirm Delete",
+          continueColor: theme.errorColor,
+          description: description,
+          onConfirm: () => item.delete(),
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        const SizedBox(
-          width: 8.0,
-        ),
-        Expanded(child: MyText(name)),
-        IconButton(
-          icon: const Icon(Icons.delete_outlined),
-          onPressed: () => onDelete(),
-        )
-      ],
+    return InkWell(
+      onTap: () {
+        context.rootNavigator.pushAnalyzePage(loadData: item);
+      },
+      child: Row(
+        children: [
+          const SizedBox(
+            width: 8.0,
+          ),
+          Expanded(child: MyText(item.name)),
+          IconButton(
+            icon: const Icon(Icons.delete_outlined),
+            onPressed: () => onDeleteTap(context),
+          )
+        ],
+      ),
     );
   }
 }

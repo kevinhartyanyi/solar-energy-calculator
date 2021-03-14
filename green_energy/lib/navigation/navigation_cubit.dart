@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logging/logging.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:titled_navigation_bar/titled_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:green_energy/router/my_router.dart';
@@ -33,17 +34,17 @@ class NavigationCubit extends Cubit<NavTab> {
   static const Map<NavTab, NavigationTab> tabs = {
     NavTab.home: NavigationTab(
       name: "Home",
-      icon: Icons.ac_unit,
+      icon: Icons.home_outlined,
       initialRoute: Routes.homePage,
     ),
     NavTab.calculator: NavigationTab(
       name: "Calculator",
-      icon: Icons.ac_unit,
+      icon: MdiIcons.mapOutline,
       initialRoute: Routes.calculatorPage,
     ),
     NavTab.manage: NavigationTab(
       name: "Saved",
-      icon: Icons.ac_unit,
+      icon: MdiIcons.formatListBulleted,
       initialRoute: Routes.managePage,
     ),
   };

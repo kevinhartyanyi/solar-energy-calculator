@@ -13,6 +13,7 @@ import '../analyze/view/analyze_page.dart';
 import '../calculator/view/calculator_page.dart';
 import '../home/view/home_page.dart';
 import '../manage/manage_page.dart';
+import '../models/calculation_item.dart';
 import '../models/solar_data.dart';
 import '../root/view/root_page.dart';
 
@@ -63,11 +64,14 @@ class MyRouter extends RouterBase {
       );
     },
     AnalyzePage: (data) {
-      final args = data.getArgs<AnalyzePageArguments>(nullOk: false);
+      final args = data.getArgs<AnalyzePageArguments>(
+        orElse: () => AnalyzePageArguments(),
+      );
       return MaterialPageRoute<dynamic>(
         builder: (context) => AnalyzePage(
           key: args.key,
           solarData: args.solarData,
+          loadData: args.loadData,
         ),
         settings: data,
       );
@@ -94,11 +98,13 @@ extension MyRouterExtendedNavigatorStateX on ExtendedNavigatorState {
 
   Future<dynamic> pushAnalyzePage({
     Key key,
-    @required SolarData solarData,
+    SolarData solarData,
+    CalculationItem loadData,
   }) =>
       push<dynamic>(
         Routes.analyzePage,
-        arguments: AnalyzePageArguments(key: key, solarData: solarData),
+        arguments: AnalyzePageArguments(
+            key: key, solarData: solarData, loadData: loadData),
       );
 
   Future<dynamic> pushManagePage() => push<dynamic>(Routes.managePage);
@@ -112,5 +118,6 @@ extension MyRouterExtendedNavigatorStateX on ExtendedNavigatorState {
 class AnalyzePageArguments {
   final Key key;
   final SolarData solarData;
-  AnalyzePageArguments({this.key, @required this.solarData});
+  final CalculationItem loadData;
+  AnalyzePageArguments({this.key, this.solarData, this.loadData});
 }

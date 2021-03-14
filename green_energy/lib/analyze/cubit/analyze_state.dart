@@ -13,5 +13,6 @@ abstract class AnalyzeState with _$AnalyzeState {
     String barChartText,
     String areaChartText,
     String name,
+    bool loaded,
   }) = _Initial;
 }

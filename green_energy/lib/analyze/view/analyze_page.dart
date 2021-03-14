@@ -10,6 +10,7 @@ import 'package:green_energy/common/card_base_button.dart';
 import 'package:green_energy/common/my_dialog.dart';
 import 'package:green_energy/common/my_text.dart';
 import 'package:green_energy/common/my_textfield.dart';
+import 'package:green_energy/models/calculation_item.dart';
 import 'package:green_energy/models/solar_data.dart';
 import 'package:green_energy/utils.dart';
 import 'package:theme_provider/theme_provider.dart';
@@ -17,9 +18,10 @@ import 'package:auto_route/auto_route.dart';
 import 'package:green_energy/router/my_router.dart';
 
 class AnalyzePage extends StatelessWidget {
-  const AnalyzePage({Key key, @required this.solarData}) : super(key: key);
+  const AnalyzePage({Key key, this.solarData, this.loadData}) : super(key: key);
 
   final SolarData solarData;
+  final CalculationItem loadData;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +31,8 @@ class AnalyzePage extends StatelessWidget {
         backgroundColor: theme.backgroundColor,
         body: Material(
           child: BlocProvider(
-            create: (context) => AnalyzeCubit(solarData),
+            create: (context) =>
+                AnalyzeCubit(solarData: solarData, loadData: loadData),
             child: const Analyze(),
           ),
         ),
@@ -109,15 +112,15 @@ class SaveButton extends StatelessWidget {
   void onSave(String name, BuildContext context) {
     final cubit = context.read<AnalyzeCubit>();
     cubit.saveCalculation(name);
-    //context.navigator.
   }
 
   @override
   Widget build(BuildContext context) {
     final h = MediaQuery.of(context).size.height;
+    final cubit = context.read<AnalyzeCubit>();
     return CardBaseButton(
       onTap: () => onTap(context),
-      text: "Save",
+      text: cubit.state.loaded ? "Change" : "Save",
       bold: true,
       textSize: h * 0.044,
     );
@@ -186,7 +189,7 @@ class _ChooseNameState extends State<ChooseName> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          const MyText(
+          MyText(
             "Choose a name",
           ),
           Divider(

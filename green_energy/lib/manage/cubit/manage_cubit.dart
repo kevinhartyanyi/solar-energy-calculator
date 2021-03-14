@@ -22,7 +22,7 @@ class ManageCubit extends Cubit<List<CalculationItem>> {
 
   void boxChanged() {
     final values = box.values.toList();
-    _log.severe("$calculationsBox box changed to $values");
+    _log.fine("$calculationsBox box changed to $values");
     emit(values);
   }
 

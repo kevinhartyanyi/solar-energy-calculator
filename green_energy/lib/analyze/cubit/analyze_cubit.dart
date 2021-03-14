@@ -17,30 +17,44 @@ part 'analyze_state.dart';
 part 'analyze_cubit.freezed.dart';
 
 class AnalyzeCubit extends Cubit<AnalyzeState> {
-  AnalyzeCubit(SolarData solarData)
-      : super(AnalyzeState.initial(
-            name: "My calculation",
-            electricityPrice: 0.12,
-            amount: 12,
-            costs: 8000,
-            solarData: solarData,
-            instalment: DateTime.now().subtract(const Duration(days: 365)),
-            end: DateTime.now(),
-            totalEnergy: getTotalEnergyProduced(
-                solarData,
+  AnalyzeCubit({SolarData solarData, CalculationItem loadData})
+      : assert(solarData != null || loadData != null),
+        super(
+          AnalyzeState.initial(
+            name: loadData?.name ?? "My calculation",
+            electricityPrice: loadData?.electricityPrice ?? 0.12,
+            amount: loadData?.solarPanelAmount ?? 12,
+            costs: loadData?.costs ?? 8000,
+            solarData: loadData?.solarData ?? solarData,
+            instalment: loadData?.instalment ??
                 DateTime.now().subtract(const Duration(days: 365)),
-                DateTime.now()))) {
+            end: loadData?.end ?? DateTime.now(),
+            totalEnergy: getTotalEnergyProduced(
+              loadData?.solarData ?? solarData,
+              loadData?.instalment ??
+                  DateTime.now().subtract(const Duration(days: 365)),
+              loadData?.end ?? DateTime.now(),
+            ),
+            loaded: loadData != null,
+          ),
+        ) {
     box = Hive.box(calculationsBox);
+    loadKey = loadData?.key;
   }
 
   static final _log = Logger("AnalyzeCubit");
 
   Box<CalculationItem> box;
+  dynamic loadKey; // For updating the existing item
 
   Future<void> saveCalculation(String name) async {
     final newState = state.copyWith(name: name);
     final newCalculation = CalculationItem.fromAnalyzeState(newState);
-    await box.add(newCalculation);
+    if (state.loaded) {
+      await box.put(loadKey, newCalculation);
+    } else {
+      await box.add(newCalculation);
+    }
     emit(newState);
   }
 

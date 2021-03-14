@@ -1,10 +1,13 @@
 import 'package:flutter/foundation.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
+import 'package:green_energy/common/my_alert_dialog.dart';
+import 'package:green_energy/common/my_text.dart';
 import 'package:green_energy/constans.dart';
 import 'package:green_energy/models/solar_data.dart';
 import 'package:intl/intl.dart';
 import 'package:jiffy/jiffy.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:tuple/tuple.dart';
 
 Uri urlBuilder({
