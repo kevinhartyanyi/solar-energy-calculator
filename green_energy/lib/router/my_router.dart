@@ -4,6 +4,7 @@ import 'package:green_energy/calculator/view/calculator_page.dart';
 import 'package:green_energy/home/view/home_page.dart';
 import 'package:green_energy/manage/manage_page.dart';
 import 'package:green_energy/root/view/root_page.dart';
+import 'package:green_energy/settings/settings_page.dart';
 
 export 'my_router.gr.dart';
 
@@ -16,6 +17,7 @@ export 'my_router.gr.dart';
     MaterialRoute(page: CalculatorPage),
     MaterialRoute(page: AnalyzePage),
     MaterialRoute(page: ManagePage),
+    MaterialRoute(page: SettingsPage),
   ],
 )
 class $MyRouter {}

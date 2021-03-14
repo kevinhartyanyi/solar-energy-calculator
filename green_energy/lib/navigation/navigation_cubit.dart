@@ -5,7 +5,7 @@ import 'package:titled_navigation_bar/titled_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:green_energy/router/my_router.dart';
 
-enum NavTab { home, calculator, manage }
+enum NavTab { home, calculator, manage, settings }
 
 class NavigationCubit extends Cubit<NavTab> {
   NavigationCubit() : super(NavTab.home);
@@ -46,6 +46,11 @@ class NavigationCubit extends Cubit<NavTab> {
       name: "Saved",
       icon: MdiIcons.formatListBulleted,
       initialRoute: Routes.managePage,
+    ),
+    NavTab.settings: NavigationTab(
+      name: "Settings",
+      icon: MdiIcons.cogOutline,
+      initialRoute: Routes.settingsPage,
     ),
   };
 }

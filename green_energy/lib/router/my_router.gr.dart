@@ -16,6 +16,7 @@ import '../manage/manage_page.dart';
 import '../models/calculation_item.dart';
 import '../models/solar_data.dart';
 import '../root/view/root_page.dart';
+import '../settings/settings_page.dart';
 
 class Routes {
   static const String rootPage = '/root-page';
@@ -23,12 +24,14 @@ class Routes {
   static const String calculatorPage = '/calculator-page';
   static const String analyzePage = '/analyze-page';
   static const String managePage = '/manage-page';
+  static const String settingsPage = '/settings-page';
   static const all = <String>{
     rootPage,
     homePage,
     calculatorPage,
     analyzePage,
     managePage,
+    settingsPage,
   };
 }
 
@@ -41,6 +44,7 @@ class MyRouter extends RouterBase {
     RouteDef(Routes.calculatorPage, page: CalculatorPage),
     RouteDef(Routes.analyzePage, page: AnalyzePage),
     RouteDef(Routes.managePage, page: ManagePage),
+    RouteDef(Routes.settingsPage, page: SettingsPage),
   ];
   @override
   Map<Type, AutoRouteFactory> get pagesMap => _pagesMap;
@@ -82,6 +86,12 @@ class MyRouter extends RouterBase {
         settings: data,
       );
     },
+    SettingsPage: (data) {
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => const SettingsPage(),
+        settings: data,
+      );
+    },
   };
 }
 
@@ -108,6 +118,8 @@ extension MyRouterExtendedNavigatorStateX on ExtendedNavigatorState {
       );
 
   Future<dynamic> pushManagePage() => push<dynamic>(Routes.managePage);
+
+  Future<dynamic> pushSettingsPage() => push<dynamic>(Routes.settingsPage);
 }
 
 /// ************************************************************************

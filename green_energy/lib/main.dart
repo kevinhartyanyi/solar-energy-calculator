@@ -85,6 +85,7 @@ class _MyAppState extends State<MyApp> {
     Hive.registerAdapter(CalculationItemAdapter());
     Hive.registerAdapter(SolarDataAdapter());
     await Hive.openBox<CalculationItem>(calculationsBox);
+    await Hive.openBox<int>(selectedBox);
   }
 
   @override
