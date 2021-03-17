@@ -56,12 +56,6 @@ class SettingsPage extends StatelessWidget {
   void onChangeThemeClick(BuildContext context) {
     showDialog(
         context: context, builder: (_) => ThemeConsumer(child: ThemeDialog()));
-    // final cubit = BlocProvider.of<ThemeCubit>(context);
-    // if (cubit.state.isLightTheme) {
-    //   cubit.changeToDarkTheme();
-    // } else {
-    //   cubit.changeToLightTheme();
-    // }
   }
 
   @override
@@ -120,7 +114,6 @@ class AboutDialogItem extends StatelessWidget {
         },
         child: MyText(
           text,
-          textColor: Colors.black,
           textSize: h * 0.02,
         ),
       ),

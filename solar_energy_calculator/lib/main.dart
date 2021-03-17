@@ -16,7 +16,7 @@ import 'package:theme_provider/theme_provider.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
 
-const bool kReleaseMode = false;
+const bool kReleaseMode = true;
 void main() {
   dynamic prettyLogger;
   if (!kReleaseMode) {
@@ -29,10 +29,10 @@ void main() {
   }
   Logger.root.level = Level.ALL; // defaults to Level.INFO
   Logger.root.onRecord.listen((record) {
-    final String log =
-        '[${record.level.name}] - <${record.loggerName}> -- ${record.time} -- ${record.message}';
-    debugPrint(log);
     if (!kReleaseMode) {
+      final String log =
+          '[${record.level.name}] - <${record.loggerName}> -- ${record.time} -- ${record.message}';
+      //debugPrint(log);
       if (record.level == Level.FINE ||
           record.level == Level.FINER ||
           record.level == Level.FINEST) {

@@ -39,23 +39,27 @@ class Manage extends StatelessWidget {
       child: BlocBuilder<ManageCubit, List<CalculationItem>>(
         builder: (context, state) {
           final theme = ThemeProvider.themeOf(context).data;
-          return ListView.separated(
-              itemCount: state.length,
-              itemBuilder: (context, index) {
-                final item = state[index];
-                return ManageItem(
-                  item: item,
-                );
-              },
-              separatorBuilder: (context, index) {
-                return Divider(
-                  color: theme.accentColor.withOpacity(0.3),
-                  thickness: 3.0,
-                );
-                // return SizedBox(
-                //   height: h * 0.02,
-                // );
-              });
+          return state.isEmpty
+              ? const Center(
+                  child: MyText("Nothing saved yet"),
+                )
+              : ListView.separated(
+                  itemCount: state.length,
+                  itemBuilder: (context, index) {
+                    final item = state[index];
+                    return ManageItem(
+                      item: item,
+                    );
+                  },
+                  separatorBuilder: (context, index) {
+                    return Divider(
+                      color: theme.accentColor.withOpacity(0.3),
+                      thickness: 3.0,
+                    );
+                    // return SizedBox(
+                    //   height: h * 0.02,
+                    // );
+                  });
         },
       ),
     );

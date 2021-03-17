@@ -1,3 +1,4 @@
+import 'dart:io' show Platform;
 import 'package:bloc/bloc.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -115,7 +116,8 @@ class CalculatorCubit extends Cubit<CalculatorState> {
       return;
     }
     emit(state.copyWith(status: FormzStatus.submissionInProgress));
-    if (await isOffline()) {
+
+    if ((Platform.isAndroid || Platform.isIOS) && await isOffline()) {
       _log.warning("device is offline");
       emit(state.copyWith(
           errorMessage: "You can't do this while you're offline",
