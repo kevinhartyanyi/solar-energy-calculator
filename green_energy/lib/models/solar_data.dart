@@ -51,10 +51,9 @@ class SolarData extends Equatable {
 
     final location = inputs['location'];
     final pvModule = inputs['pv_module'];
-    final mountingSystem = inputs['mounting_system'];
+    //final mountingSystem = inputs['mounting_system'];
 
     final monthlyData = outputs['monthly']['fixed'];
-    //print(monthlyData);
 
     return SolarData(
       latitude: location['latitude'] as double,

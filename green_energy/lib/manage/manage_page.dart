@@ -7,7 +7,6 @@ import 'package:green_energy/models/calculation_item.dart';
 import 'package:theme_provider/theme_provider.dart';
 import 'package:green_energy/router/my_router.dart';
 import 'package:auto_route/auto_route.dart';
-import 'package:green_energy/utils.dart';
 
 class ManagePage extends StatelessWidget {
   const ManagePage({Key key}) : super(key: key);
@@ -40,7 +39,6 @@ class Manage extends StatelessWidget {
       child: BlocBuilder<ManageCubit, List<CalculationItem>>(
         builder: (context, state) {
           final theme = ThemeProvider.themeOf(context).data;
-          final h = MediaQuery.of(context).size.height;
           return ListView.separated(
               itemCount: state.length,
               itemBuilder: (context, index) {

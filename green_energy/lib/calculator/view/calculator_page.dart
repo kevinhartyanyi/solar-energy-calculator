@@ -2,13 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:green_energy/calculator/cubit/calculator_cubit.dart';
 import 'package:formz/formz.dart';
-import 'package:green_energy/calculator/view/widgets/coordinates.dart';
-import 'package:green_energy/calculator/view/widgets/geo_map.dart';
-import 'package:green_energy/common/card_base_button.dart';
+import 'package:green_energy/calculator/view/widgets/calculator_type.dart';
+import 'package:green_energy/calculator/view/widgets/select_calculator_type.dart';
+import 'package:green_energy/calculator/view/widgets/submit_button.dart';
 import 'package:green_energy/common/my_column.dart';
-import 'package:green_energy/common/my_switch.dart';
-import 'package:green_energy/common/my_textfield.dart';
-import 'package:green_energy/strings.dart';
 import 'package:theme_provider/theme_provider.dart';
 import 'package:green_energy/router/my_router.dart';
 import 'package:auto_route/auto_route.dart';
@@ -43,7 +40,7 @@ class Calculator extends StatelessWidget {
       listenWhen: (previous, current) => previous.status != current.status,
       listener: (context, state) {
         if (state.status.isSubmissionFailure) {
-          Scaffold.of(context)
+          ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()
             ..showSnackBar(
               SnackBar(content: Text(state.errorMessage)),
@@ -61,155 +58,6 @@ class Calculator extends StatelessWidget {
             height: 8.0,
           ),
         ],
-      ),
-    );
-  }
-}
-
-class CalculatorType extends StatelessWidget {
-  const CalculatorType({Key key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<CalculatorCubit, CalculatorState>(
-      builder: (context, state) {
-        return AnimatedSwitcher(
-          duration: const Duration(milliseconds: 500),
-          child: state.advanced
-              ? const AdvancedCalculator()
-              : const SimpleCalculator(),
-        );
-      },
-    );
-  }
-}
-
-class AdvancedCalculator extends StatelessWidget {
-  const AdvancedCalculator({Key key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: const [
-        Expanded(
-          flex: 8,
-          child: GeoMap(),
-        ),
-        SizedBox(
-          height: 8.0,
-        ),
-        Expanded(child: Coordinates()),
-        SizedBox(
-          height: 8.0,
-        ),
-        Expanded(child: PeakPowerInput()),
-        SizedBox(
-          height: 8.0,
-        ),
-        Expanded(child: SystemLossInput()),
-      ],
-    );
-  }
-}
-
-class SimpleCalculator extends StatelessWidget {
-  const SimpleCalculator({Key key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: const [
-        Expanded(
-          flex: 6,
-          child: GeoMap(),
-        ),
-        SizedBox(
-          height: 8.0,
-        ),
-        Expanded(child: Coordinates()),
-      ],
-    );
-  }
-}
-
-class SelectCalculatorType extends StatelessWidget {
-  const SelectCalculatorType({Key key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
-      child: BlocBuilder<CalculatorCubit, CalculatorState>(
-        builder: (context, state) {
-          return MySwitch(
-              texts: const ["Simple", "Advanced"],
-              selected: state.advanced ? 1 : 0,
-              onClick: (_) {
-                context.read<CalculatorCubit>().changeCalculatorType();
-              });
-        },
-      ),
-    );
-  }
-}
-
-class PeakPowerInput extends StatelessWidget {
-  const PeakPowerInput({Key key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final cubit = context.read<CalculatorCubit>();
-    return IntTextField(
-      onChanged: (value) {
-        cubit.changePeakPower(value);
-      },
-      currentValue: cubit.state.peakpower,
-      name: "Peak power",
-      suffix: "W",
-      info: peakPowerInfo,
-    );
-  }
-}
-
-class SystemLossInput extends StatelessWidget {
-  const SystemLossInput({Key key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final cubit = context.read<CalculatorCubit>();
-    return DoubleTextField(
-      onChanged: (value) {
-        cubit.changeSystemLoss(value);
-      },
-      currentValue: cubit.state.loss,
-      name: "System loss",
-      suffix: "%",
-      info: systemLossInfo,
-    );
-  }
-}
-
-class SubmitButton extends StatelessWidget {
-  const SubmitButton({Key key}) : super(key: key);
-
-  void onTap(BuildContext context) {
-    BlocProvider.of<CalculatorCubit>(context).submit();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
-      child: BlocBuilder<CalculatorCubit, CalculatorState>(
-        buildWhen: (previous, current) => previous.status != current.status,
-        builder: (context, state) {
-          return CardBaseButton(
-            text: "Calculate",
-            bold: true,
-            isSubmissionInProgress: state.status.isSubmissionInProgress,
-            onTap: () => onTap(context),
-          );
-        },
       ),
     );
   }

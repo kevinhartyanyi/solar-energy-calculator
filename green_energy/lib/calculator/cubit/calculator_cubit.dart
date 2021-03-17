@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:bloc/bloc.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -21,7 +19,7 @@ class CalculatorCubit extends Cubit<CalculatorState> {
             longitude: const Coordinate.dirty(2.3522),
             status: Formz.validate(
                 const [Coordinate.dirty(48.8566), Coordinate.dirty(2.3522)]))) {
-    mapController = MapController();
+    //mapController = MapController();
   }
 
   static final _log = Logger("CalculatorCubit");
@@ -134,12 +132,16 @@ class CalculatorCubit extends Cubit<CalculatorState> {
       _log.info("Sending request to ${url.path}");
       final response = await http.get(url);
       if (response.statusCode == 200) {
+        _log.info("Got radiation data");
         final solarData = SolarData.fromJson(response.body);
-        for (var item in solarData.avgMonthlyEnergy) {
-          print(item);
-        }
         emit(state.copyWith(
             status: FormzStatus.submissionSuccess, solarData: solarData));
+      } else if (response.statusCode == 400) {
+        _log.info("No radiation data is available");
+        emit(state.copyWith(
+            errorMessage:
+                "Sorry, no radiation data is available for this location",
+            status: FormzStatus.submissionFailure));
       } else {
         throw Exception('Bad response: ${response.statusCode}');
       }

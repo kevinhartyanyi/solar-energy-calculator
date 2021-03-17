@@ -1,8 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
-import 'package:green_energy/common/my_alert_dialog.dart';
-import 'package:green_energy/common/my_text.dart';
 import 'package:green_energy/constans.dart';
 import 'package:green_energy/models/solar_data.dart';
 import 'package:intl/intl.dart';
@@ -78,7 +76,7 @@ Tuple3<double, double, double> getTotalEnergyProducedParts(
     [DateTime endDate]) {
   final end = endDate ?? DateTime.now();
 
-  print("Start $instalment, end: $end");
+  //print("Start $instalment, end: $end");
 
   double getEnergyForMonth(int month) {
     return solarData.avgMonthlyEnergy[month - 1];
@@ -91,7 +89,7 @@ Tuple3<double, double, double> getTotalEnergyProducedParts(
   }
 
   double getEnergyForMonths(int startMonth, int monthsAmount) {
-    print("Months amount: $monthsAmount");
+    //print("Months amount: $monthsAmount");
     double energySum = 0;
     for (var i = 0; i < monthsAmount - 1; i++) {
       final month = ((startMonth + i) % 12) + 1;
@@ -110,20 +108,19 @@ Tuple3<double, double, double> getTotalEnergyProducedParts(
       DateTime(instalment.year, instalment.month + 1, 0).day;
   final daysFromStartMonth = (lastdayFromStartMonth - instalment.day) +
       1; // +1 to take into account the day it was installed on
-  print(
-      "Current day ${instalment.day}\n lastDay: $lastdayFromStartMonth,\n diff: $daysFromStartMonth");
+  //print("Current day ${instalment.day}\n lastDay: $lastdayFromStartMonth,\n diff: $daysFromStartMonth");
   final diffMonths = Jiffy(end).diff(instalment, Units.MONTH) as int;
-  print("Month diff: $diffMonths");
+  //print("Month diff: $diffMonths");
 
-  final daysThisMonth = end.day;
-  print("Days in this month: $daysThisMonth");
+  //final daysThisMonth = end.day;
+  //print("Days in this month: $daysThisMonth");
   final energyFromStartMonth =
       getAvgDailyEnergyForMonth(instalment.month) * daysFromStartMonth;
   final energyFromCurrentMonth = getAvgDailyEnergyForMonth(end.month) * end.day;
   final energyFromMonths = getEnergyForMonths(instalment.month, diffMonths);
-  print("start month: $energyFromStartMonth");
-  print("current month: $energyFromCurrentMonth");
-  print("energy for months: $energyFromMonths");
+  //print("start month: $energyFromStartMonth");
+  //print("current month: $energyFromCurrentMonth");
+  //print("energy for months: $energyFromMonths");
   return Tuple3(energyFromStartMonth, energyFromMonths, energyFromCurrentMonth);
 }
 

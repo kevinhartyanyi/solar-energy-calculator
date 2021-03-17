@@ -54,6 +54,8 @@ class SettingsPage extends StatelessWidget {
   }
 
   void onChangeThemeClick(BuildContext context) {
+    showDialog(
+        context: context, builder: (_) => ThemeConsumer(child: ThemeDialog()));
     // final cubit = BlocProvider.of<ThemeCubit>(context);
     // if (cubit.state.isLightTheme) {
     //   cubit.changeToDarkTheme();

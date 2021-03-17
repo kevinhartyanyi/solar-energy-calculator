@@ -18,7 +18,7 @@ import 'package:path_provider/path_provider.dart' as path_provider;
 
 const bool kReleaseMode = false;
 void main() {
-  var prettyLogger;
+  dynamic prettyLogger;
   if (!kReleaseMode) {
     // Only use this while developing
     prettyLogger = debug.Logger(
@@ -85,7 +85,6 @@ class _MyAppState extends State<MyApp> {
     Hive.registerAdapter(CalculationItemAdapter());
     Hive.registerAdapter(SolarDataAdapter());
     await Hive.openBox<CalculationItem>(calculationsBox);
-    await Hive.openBox<int>(selectedBox);
   }
 
   @override
@@ -112,7 +111,22 @@ class SplashPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: Colors.white,
-      child: const CircularProgressIndicator(),
+      child: Directionality(
+        textDirection: TextDirection.ltr,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: const [
+            Text(
+              "Loading",
+              style: TextStyle(color: Colors.black, fontSize: 25),
+            ),
+            SizedBox(
+              height: 8.0,
+            ),
+            CircularProgressIndicator()
+          ],
+        ),
+      ),
     );
   }
 }
@@ -135,8 +149,19 @@ class MyAppCore extends StatelessWidget {
             description: "Light Theme",
             data: myLightTheme,
           ),
-          AppTheme.dark()
+          AppTheme(
+            id: "dark_theme",
+            description: "Dark Theme",
+            data: myDarkTheme,
+          ),
         ],
+        saveThemesOnChange: true,
+        onInitCallback: (controller, previouslySavedThemeFuture) async {
+          final String savedTheme = await previouslySavedThemeFuture;
+          if (savedTheme != null) {
+            controller.setTheme(savedTheme);
+          }
+        },
         child: ThemeConsumer(
           child: Builder(builder: (themeContext) {
             final router =

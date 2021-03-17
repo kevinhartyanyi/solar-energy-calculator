@@ -11,7 +11,6 @@ import 'package:flutter/material.dart';
 
 import '../analyze/view/analyze_page.dart';
 import '../calculator/view/calculator_page.dart';
-import '../home/view/home_page.dart';
 import '../manage/manage_page.dart';
 import '../models/calculation_item.dart';
 import '../models/solar_data.dart';
@@ -20,14 +19,12 @@ import '../settings/settings_page.dart';
 
 class Routes {
   static const String rootPage = '/root-page';
-  static const String homePage = '/home-page';
   static const String calculatorPage = '/calculator-page';
   static const String analyzePage = '/analyze-page';
   static const String managePage = '/manage-page';
   static const String settingsPage = '/settings-page';
   static const all = <String>{
     rootPage,
-    homePage,
     calculatorPage,
     analyzePage,
     managePage,
@@ -40,7 +37,6 @@ class MyRouter extends RouterBase {
   List<RouteDef> get routes => _routes;
   final _routes = <RouteDef>[
     RouteDef(Routes.rootPage, page: RootPage),
-    RouteDef(Routes.homePage, page: HomePage),
     RouteDef(Routes.calculatorPage, page: CalculatorPage),
     RouteDef(Routes.analyzePage, page: AnalyzePage),
     RouteDef(Routes.managePage, page: ManagePage),
@@ -52,12 +48,6 @@ class MyRouter extends RouterBase {
     RootPage: (data) {
       return MaterialPageRoute<dynamic>(
         builder: (context) => const RootPage(),
-        settings: data,
-      );
-    },
-    HomePage: (data) {
-      return MaterialPageRoute<dynamic>(
-        builder: (context) => const HomePage(),
         settings: data,
       );
     },
@@ -101,8 +91,6 @@ class MyRouter extends RouterBase {
 
 extension MyRouterExtendedNavigatorStateX on ExtendedNavigatorState {
   Future<dynamic> pushRootPage() => push<dynamic>(Routes.rootPage);
-
-  Future<dynamic> pushHomePage() => push<dynamic>(Routes.homePage);
 
   Future<dynamic> pushCalculatorPage() => push<dynamic>(Routes.calculatorPage);
 

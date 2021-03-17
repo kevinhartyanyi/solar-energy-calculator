@@ -137,3 +137,26 @@ class InstalmentDate extends StatelessWidget {
     );
   }
 }
+
+class AmountAndElectricityPrice extends StatelessWidget {
+  const AmountAndElectricityPrice({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final h = MediaQuery.of(context).size.height;
+    return SizedBox(
+      height: h * 0.08,
+      child: Row(
+        children: const [
+          Expanded(child: Amount()),
+          SizedBox(
+            width: 12.0,
+          ),
+          Expanded(child: ElectricityPrice()),
+        ],
+      ),
+    );
+  }
+}

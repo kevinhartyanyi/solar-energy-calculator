@@ -7,8 +7,19 @@ import 'package:green_energy/calculator/view/widgets/zoombuttons_plugin_options.
 import 'package:theme_provider/theme_provider.dart';
 import 'package:latlong/latlong.dart';
 
-class GeoMap extends StatelessWidget {
+class GeoMap extends StatefulWidget {
   const GeoMap({Key key}) : super(key: key);
+
+  @override
+  _GeoMapState createState() => _GeoMapState();
+}
+
+class _GeoMapState extends State<GeoMap> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<CalculatorCubit>().mapController = MapController();
+  }
 
   void mapOnTap(BuildContext context, LatLng latLong) {
     final cubit = BlocProvider.of<CalculatorCubit>(context);
@@ -59,6 +70,7 @@ class GeoMap extends StatelessWidget {
               ZoomButtonsPluginOption(
                 minZoom: 4,
                 maxZoom: 19,
+                // ignore: avoid_redundant_argument_values
                 mini: true,
                 padding: 10,
                 zoomInColorIcon: theme.accentColor,
