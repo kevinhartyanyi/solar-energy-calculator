@@ -4,7 +4,9 @@ A simple app to calculate energy generation from solar radiation at specific coo
 
 ## Getting Started
 
-You can download the apk from the [releases](https://github.com/kevinhartyanyi/solar-energy-calculator/releases) tab.
+You can download the apk from the [releases](https://github.com/kevinhartyanyi/solar-energy-calculator/releases) tab or from [Google Play](https://play.google.com/store/apps/details?id=com.mdatanorm.solar_energy_calculator)
+
+<a target='_blank' href='https://play.google.com/store/apps/details?id=com.mdatanorm.solar_energy_calculator'><img width='200' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png'/></a>
 
 Or you can compile it yourself by downloading the code. To compile it you will need the [flutter sdk](https://flutter.dev/docs/get-started/install).
 
